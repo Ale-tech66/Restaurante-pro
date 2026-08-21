@@ -14,12 +14,7 @@
 -- Sin esto, supabase.channel('...') nunca emite eventos INSERT/UPDATE.
 -- Solo se añaden las tablas que el frontend escucha en tiempo real.
 alter publication supabase_realtime
-  add table public.orders,
-  add table public.order_items,
-  add table public.order_item_options,
-  add table public.tables,
-  add table public.payments,
-  add table public.notifications;
+  add table public.orders, public.order_items, public.order_item_options, public.tables, public.payments, public.notifications;
 
 -- ============================================================
 -- 2. NÚMERO DE PEDIDO SEGURO (advisory lock por restaurante)
