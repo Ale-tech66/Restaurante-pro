@@ -63,7 +63,11 @@ export default function ProductEditScreen() {
     }
   }, [user?.restaurant_id, isEditing, params.id]);
 
-  useFocusEffect(loadData);
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [loadData])
+  );
 
   const handleSave = async () => {
     if (!user?.restaurant_id) return;
