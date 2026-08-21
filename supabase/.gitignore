@@ -1,0 +1,7 @@
+# Supabase CLI
+.env
+.branches
+.temp/
+
+# No ignorar migraciones ni config
+!.gitignore

@@ -1,0 +1,42 @@
+# ============================================================
+# Restaurante Pro — .gitignore raíz
+# ============================================================
+
+# ---- Supabase ----
+supabase/.env
+supabase/.branches/
+supabase/.temp/
+supabase/.branches.tmp
+
+# ---- App (Expo / React Native) ----
+app/node_modules/
+app/.expo/
+app/dist/
+app/web-build/
+app/.env.local
+app/.env*.local
+app/*.tsbuildinfo
+app/ios/
+app/android/
+app/.DS_Store
+app/*.jks
+app/*.p8
+app/*.p12
+app/*.key
+app/*.mobileprovision
+app/*.orig.*
+app/npm-debug.*
+app/yarn-error.*
+app/yarn-debug.*
+
+# ---- Editor / SO ----
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+Thumbs.db
+
+# ---- Build artifacts ----
+*.log

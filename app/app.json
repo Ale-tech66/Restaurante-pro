@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Restaurante Pro",
+    "slug": "restaurante-pro",
+    "version": "1.0.0",
+    "scheme": "restaurante-pro",
+    "orientation": "default",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.restaurante.pro"
+    },
+    "android": {
+      "package": "com.restaurante.pro"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

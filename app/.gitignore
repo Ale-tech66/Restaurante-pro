@@ -1,0 +1,20 @@
+# Learn more: https://docs.expo.dev/guides/monorepos
+node_modules/
+.expo/
+dist/
+web-build/
+.env.local
+.env*.local
+*.tsbuildinfo
+ios/
+android/
+.DS_Store
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+npm-debug.*
+yarn-error.*
+yarn-debug.*
