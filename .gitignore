@@ -1,24 +1,43 @@
 # ============================================================
-# Restaurante Pro — .gitignore raíz
+# Restaurante Pro — .gitignore raíz (Monorepo)
 # ============================================================
+
+# ---- Node_modules y dependencias ----
+node_modules/
+**/node_modules/
+**/dist/
+**/build/
+**/release/
+**/coverage/
+**/.cache/
+**/yarn.lock
+**/package-lock.json
+
+# ---- Variables de entorno sensibles ----
+.env
+.env.local
+.env*.local
+**/.env.local
+**/.env.production
+**/.env.staging
+**/.env.development
 
 # ---- Supabase ----
 supabase/.env
 supabase/.branches/
 supabase/.temp/
 supabase/.branches.tmp
+supabase/docker-compose.override.yml
 
-# ---- App (Expo / React Native) ----
+# ---- Apps específicas ----
+# App original (Expo)
 app/node_modules/
 app/.expo/
 app/dist/
 app/web-build/
-app/.env.local
-app/.env*.local
-app/*.tsbuildinfo
 app/ios/
 app/android/
-app/.DS_Store
+app/*.tsbuildinfo
 app/*.jks
 app/*.p8
 app/*.p12
@@ -29,7 +48,42 @@ app/npm-debug.*
 app/yarn-error.*
 app/yarn-debug.*
 
-# ---- Editor / SO ----
+# Admin Desktop (Vite + Electron)
+apps/admin-desktop/dist/
+apps/admin-desktop/dist-electron/
+apps/admin-desktop/release/
+apps/admin-desktop/electron/.eslintrc.js
+apps/admin-desktop/electron/.prettierrc.js
+
+# Admin Mobile (Expo)
+apps/admin-mobile/node_modules/
+apps/admin-mobile/.expo/
+apps/admin-mobile/dist/
+apps/admin-mobile/web-build/
+apps/admin-mobile/ios/
+apps/admin-mobile/android/
+
+# Client Mobile (Expo)
+apps/client-mobile/node_modules/
+apps/client-mobile/.expo/
+apps/client-mobile/dist/
+apps/client-mobile/web-build/
+apps/client-mobile/ios/
+apps/client-mobile/android/
+
+# Shared package
+packages/shared/dist/
+packages/shared/node_modules/
+
+# ---- Build y test artifacts ----
+*.log
+*.tgz
+*.tar.gz
+.nyc_output/
+.vscode-test/
+test-results/
+
+# ---- Editor / IDE ----
 .DS_Store
 .vscode/
 .idea/
@@ -37,6 +91,47 @@ app/yarn-debug.*
 *.swo
 *~
 Thumbs.db
+.vscode/settings.json
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/inspectionProfiles/
 
-# ---- Build artifacts ----
-*.log
+# ---- Sistema / Logs ----
+*.tmp
+*.temp
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ---- Archivos sensibles ----
+*.key
+*.pem
+*.p12
+*.jks
+*.mobileprovision
+*.orig.*
+.secrets/
+config/local.json
+config/production.json
+
+# ---- Expo específico ----
+.expo-shared/
+*.expo.*
+eas-build-metadata.json
+
+# ---- Electron específico ----
+electron-builder*.log
+dist-electron/
+
+# ---- TypeScript ----
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ---- Otros ----
+*.patch
+*.diff
+.env.backup
+.env.local.backup
