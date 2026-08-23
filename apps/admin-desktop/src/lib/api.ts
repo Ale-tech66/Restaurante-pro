@@ -235,6 +235,17 @@ export async function claimRestaurantAdmin(slug: string) {
   return data;
 }
 
+// Crear un restaurante nuevo desde cero (RLS: cualquier autenticado puede insertar)
+export async function createRestaurant(params: { name: string; slug: string }) {
+  const { data, error } = await supabase
+    .from('restaurants')
+    .insert({ name: params.name, slug: params.slug })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
 // ============================================================
 // Inventario
 // ============================================================

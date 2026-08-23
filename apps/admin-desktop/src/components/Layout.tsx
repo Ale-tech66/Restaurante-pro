@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/auth';
-import { claimRestaurantAdmin } from '@/lib/api';
+import { claimRestaurantAdmin, createRestaurant } from '@/lib/api';
 import './Layout.css';
 
 const menuItems = [
@@ -27,12 +27,18 @@ export function Layout() {
   const [slug, setSlug] = useState('');
   const [claiming, setClaiming] = useState(false);
   const [claimError, setClaimError] = useState('');
+  const [newName, setNewName] = useState('');
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState('');
 
   if (!user) return <Navigate to="/login" replace />;
 
   // Cuenta sin restaurante vinculado: sin esto, todas las pantallas
   // se quedarían con el spinner de carga para siempre.
   if (!user.restaurant_id) {
+    const slugify = (text: string) =>
+      text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
     const handleClaim = async () => {
       if (!slug.trim()) return;
       setClaiming(true);
@@ -47,42 +53,87 @@ export function Layout() {
       }
     };
 
+    const handleCreate = async () => {
+      const name = newName.trim();
+      const newSlug = slugify(name);
+      if (!name || !newSlug) return;
+      setCreating(true);
+      setCreateError('');
+      try {
+        // Si el slug ya existe en la BD, lo diferenciamos con un sufijo corto
+        let finalSlug = newSlug;
+        try {
+          await createRestaurant({ name, slug: finalSlug });
+        } catch (err: any) {
+          if (err?.code === '23505' || /duplicate|unique/i.test(err?.message ?? '')) {
+            finalSlug = `${newSlug}-${Math.random().toString(36).slice(2, 6)}`;
+            await createRestaurant({ name, slug: finalSlug });
+          } else {
+            throw err;
+          }
+        }
+        // Reclamar admin del restaurante recién creado y refrescar la sesión
+        await claimRestaurantAdmin(finalSlug);
+        await refreshUser();
+      } catch (err: any) {
+        setCreateError(err?.message ?? 'No se pudo crear el restaurante');
+      } finally {
+        setCreating(false);
+      }
+    };
+
     return (
       <div className="auth-container">
-        <div className="auth-card" style={{ maxWidth: 520 }}>
+        <div className="auth-card" style={{ maxWidth: 560 }}>
           <div className="auth-logo">🔗</div>
-          <h1 className="auth-title">Cuenta sin restaurante</h1>
+          <h1 className="auth-title">Configura tu restaurante</h1>
           <p className="auth-subtitle">
             Hola {user.full_name}, tu cuenta todavía no está vinculada a ningún restaurante.
           </p>
 
           <div style={{ textAlign: 'left', fontSize: 14, color: '#a1a1aa', lineHeight: 1.6, marginBottom: 20 }}>
-            <p><strong style={{ color: '#f4f4f5' }}>Opción A — Soy el dueño:</strong> si creaste un restaurante en Supabase y aún no tiene administrador, escribe su <em>slug</em> para reclamar la administración.</p>
-            <p><strong style={{ color: '#f4f4f5' }}>Opción B — Soy personal:</strong> pide al administrador que te invite desde el panel (Usuarios → Invitar).</p>
+            <p><strong style={{ color: '#f4f4f5' }}>🆕 Crear uno nuevo</strong> — empieza desde cero con tu propio restaurante (recomendado si es tu primera vez).</p>
+            <p><strong style={{ color: '#f4f4f5' }}>🔑 Reclamar existente</strong> — si alguien ya creó el restaurante en Supabase y aún no tiene administrador.</p>
           </div>
 
-          <form
-            onSubmit={(e) => { e.preventDefault(); handleClaim(); }}
-            className="auth-form"
-          >
-            <label className="auth-label">Slug del restaurante (ej. mi-restaurante)</label>
+          <form onSubmit={(e) => { e.preventDefault(); handleCreate(); }} className="auth-form" style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+            <label className="auth-label">Nombre de tu restaurante</label>
             <input
               type="text"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder="mi-restaurante"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Ej. Tacos La Doña"
               className="auth-input"
+              required
             />
-            {claimError && <div className="auth-error">{claimError}</div>}
-            <button type="submit" className="auth-btn" disabled={claiming || !slug.trim()}>
-              {claiming ? 'Reclamando...' : 'Reclamar administración'}
+            {createError && <div className="auth-error">{createError}</div>}
+            <button type="submit" className="auth-btn" disabled={creating || !newName.trim()}>
+              {creating ? 'Creando...' : '🆕 Crear mi restaurante'}
             </button>
           </form>
+
+          <details style={{ marginTop: 16, color: '#a1a1aa', fontSize: 13 }}>
+            <summary style={{ cursor: 'pointer' }}>Reclamar un restaurante ya existente</summary>
+            <form onSubmit={(e) => { e.preventDefault(); handleClaim(); }} className="auth-form" style={{ marginTop: 12 }}>
+              <label className="auth-label">Slug del restaurante</label>
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+                placeholder="mi-restaurante"
+                className="auth-input"
+              />
+              {claimError && <div className="auth-error">{claimError}</div>}
+              <button type="submit" className="auth-btn" disabled={claiming || !slug.trim()}>
+                {claiming ? 'Reclamando...' : '🔑 Reclamar administración'}
+              </button>
+            </form>
+          </details>
 
           <button
             onClick={async () => { await signOut(); navigate('/login'); }}
             style={{
-              marginTop: 12, background: 'transparent', border: '1px solid var(--border)',
+              marginTop: 16, background: 'transparent', border: '1px solid var(--border)',
               borderRadius: 8, padding: '10px 16px', color: '#a1a1aa', cursor: 'pointer', width: '100%',
             }}
           >
