@@ -116,6 +116,24 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  // Formularios (modales)
+  label: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#d4d4d8',
+    marginBottom: 6,
+    marginTop: 16,
+  },
+  input: {
+    backgroundColor: '#262a33',
+    borderWidth: 1,
+    borderColor: '#2a2e37',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    color: '#f4f4f5',
+    fontSize: 15,
+  },
   // Empty
   empty: {
     textAlign: 'center',

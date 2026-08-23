@@ -1,5 +1,11 @@
 // Mock de módulos nativos de Expo y React Native
 
+// Env vars dummy para que createClient no falle al importar módulos
+// (los tests siempre mockean las funciones, nunca llaman a la API real)
+process.env.EXPO_PUBLIC_SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://test.supabase.co';
+process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || 'test-anon-key';
+
+
 // expo-secure-store
 jest.mock('expo-secure-store', () => ({
   getItemAsync: jest.fn().mockResolvedValue(null),
@@ -16,27 +22,6 @@ jest.mock('expo-status-bar', () => ({
 jest.mock('expo-splash-screen', () => ({
   preventAutoHideAsync: jest.fn().mockResolvedValue(undefined),
   hideAsync: jest.fn().mockResolvedValue(undefined),
-}));
-
-// expo-haptics
-jest.mock('expo-haptics', () => ({
-  impactAsync: jest.fn(),
-  ImpactFeedbackStyle: { Medium: 'medium' },
-  notificationAsync: jest.fn(),
-  NotificationFeedbackType: { Success: 'success' },
-}));
-
-// react-native-reanimated
-jest.mock('react-native-reanimated', () => ({
-  __esModule: true,
-  default: {
-    View: 'View',
-    createAnimatedComponent: (component: any) => component,
-  },
-  useSharedValue: jest.fn(() => ({ value: 0 })),
-  useAnimatedStyle: jest.fn(() => ({})),
-  withSpring: jest.fn(),
-  withTiming: jest.fn(),
 }));
 
 // react-native-gesture-handler

@@ -20,6 +20,7 @@
     "install:all": "npm install && cd packages/shared && npm install && cd ../../apps/admin-desktop && npm install && cd ../../apps/admin-mobile && npm install && cd ../../apps/client-mobile && npm install"
   },
   "devDependencies": {
+    "@types/react": "~19.1.0",
     "typescript": "~5.9.0"
   }
 }

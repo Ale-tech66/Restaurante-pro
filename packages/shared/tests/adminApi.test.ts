@@ -253,7 +253,7 @@ describe('adminApi — Dashboard', () => {
   it('fetchDashboardStats con 0 pedidos hoy', async () => {
     const { supabase } = createMockSupabase();
     supabase.from
-      .mockReturnValueOnce({ select: () => ({ eq: () => ({ gte: () => { data: [], error: null } }) }) })
+      .mockReturnValueOnce({ select: () => ({ eq: () => ({ gte: () => ({ data: [], error: null }) }) }) })
       .mockReturnValueOnce({ select: () => ({ eq: () => { return { count: 0, error: null, data: null }; } }) })
       .mockReturnValueOnce({ select: () => ({ eq: () => { return { count: 0, error: null, data: null }; } }) })
       .mockReturnValueOnce({ select: () => ({ eq: () => ({ in: () => { return { count: 0, error: null, data: null }; } }) }) });

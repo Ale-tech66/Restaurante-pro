@@ -5,7 +5,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { vi } from 'vitest';
 
 // Mock del cliente supabase
-const mockFrom = vi.fn();
+const mockFrom = vi.hoisted(() => vi.fn());
 
 vi.mock('@/lib/supabase', () => ({
   supabase: {
@@ -39,15 +39,15 @@ import {
 // Helper: crear cadena de mock
 function chain(result: { data?: any; error?: any; count?: number }) {
   const c: any = {
-    select: jest.fn(() => c),
-    insert: jest.fn(() => c),
-    update: jest.fn(() => c),
-    delete: jest.fn(() => c),
-    eq: jest.fn(() => c),
-    gte: jest.fn(() => c),
-    in: jest.fn(() => c),
-    order: jest.fn(() => c),
-    single: jest.fn(() => c),
+    select: vi.fn(() => c),
+    insert: vi.fn(() => c),
+    update: vi.fn(() => c),
+    delete: vi.fn(() => c),
+    eq: vi.fn(() => c),
+    gte: vi.fn(() => c),
+    in: vi.fn(() => c),
+    order: vi.fn(() => c),
+    single: vi.fn(() => c),
   };
   // Hacer que el último método resuelva con result
   c.then = (resolve: any) => Promise.resolve(result).then(resolve);

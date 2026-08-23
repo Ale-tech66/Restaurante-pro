@@ -5,14 +5,15 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { vi } from 'vitest';
 
 // Mockear supabase antes de importar el store
-const mockAuth = {
-  getSession: vi.fn(),
-  getUser: vi.fn(),
-  signInWithPassword: vi.fn(),
-  signOut: vi.fn(),
-};
-
-const mockFrom = vi.fn();
+const { mockAuth, mockFrom } = vi.hoisted(() => ({
+  mockAuth: {
+    getSession: vi.fn(),
+    getUser: vi.fn(),
+    signInWithPassword: vi.fn(),
+    signOut: vi.fn(),
+  },
+  mockFrom: vi.fn(),
+}));
 
 vi.mock('@/lib/supabase', () => ({
   supabase: {

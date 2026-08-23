@@ -138,6 +138,7 @@ export const styles = StyleSheet.create({
   badgeGreen: { backgroundColor: 'rgba(74,222,128,0.15)', color: '#4ade80' },
   badgeOrange: { backgroundColor: 'rgba(249,115,22,0.15)', color: '#fb923c' },
   badgeRed: { backgroundColor: 'rgba(239,68,68,0.15)', color: '#f87171' },
+  badgeBlue: { backgroundColor: 'rgba(59,130,246,0.15)', color: '#60a5fa' },
   badgeGray: { backgroundColor: 'rgba(113,113,122,0.15)', color: '#a1a1aa' },
   // Buttons
   btn: {

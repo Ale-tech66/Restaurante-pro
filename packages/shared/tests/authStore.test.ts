@@ -136,6 +136,7 @@ describe('authStore — signIn', () => {
     const signInPromise = new Promise((resolve) => { resolveSignIn = resolve; });
     const supabase = createMockSupabase({
       signInWithPassword: jest.fn().mockReturnValue(signInPromise),
+      getUser: jest.fn().mockResolvedValue({ data: { user: null } }),
     });
     const store = createAuthStore(supabase);
 
