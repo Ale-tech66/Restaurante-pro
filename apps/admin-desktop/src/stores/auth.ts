@@ -52,14 +52,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
     const { data, error } = await supabase
       .from('users')
-      .select('*, role:roles(*)')
+      .select('*, role:roles(*), restaurant:restaurants(id, name, slug)')
       .eq('id', authUser.id)
       .single();
     if (error || !data) {
       set({ user: null, role: null });
       return;
     }
-    set({ user: data as User, role: (data as any).role?.name ?? null });
+    set({
+      user: { ...(data as any), restaurant_name: (data as any).restaurant?.name ?? null } as User,
+      role: (data as any).role?.name ?? null,
+    });
   },
 
   signIn: async (email, password) => {

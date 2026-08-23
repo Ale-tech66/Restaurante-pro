@@ -1,0 +1,121 @@
+/* ============================================================
+   QR Modal — visualización, impresión y descarga
+   ============================================================ */
+.qr-modal-card {
+  max-width: 420px;
+}
+
+.qr-print-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.qr-print-header {
+  margin-bottom: 16px;
+}
+
+.qr-brand {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+}
+
+.qr-table-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.qr-hint {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.qr-image {
+  width: 260px;
+  height: 260px;
+  border-radius: 16px;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.qr-token {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.qr-token:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-strong);
+}
+
+.qr-capacity {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   IMPRESIÓN: solo la tarjeta del QR sale en papel
+   ============================================================ */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .qr-print-area,
+  .qr-print-area * {
+    visibility: visible !important;
+    color: #111 !important;
+  }
+  .qr-print-area {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: 340px;
+    height: fit-content;
+    background: #fff !important;
+  }
+  .qr-image {
+    box-shadow: none !important;
+    border: 2px solid #eee;
+  }
+  .qr-token,
+  .no-print {
+    display: none !important;
+  }
+}

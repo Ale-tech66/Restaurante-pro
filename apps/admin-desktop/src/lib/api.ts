@@ -122,6 +122,43 @@ export async function createTable(table: { restaurant_id: string; number: string
   return data;
 }
 
+// ============================================================
+// Códigos QR de mesas
+// ============================================================
+export async function fetchTableQr(tableId: string) {
+  const { data, error } = await supabase
+    .from('qr_codes')
+    .select('*')
+    .eq('table_id', tableId)
+    .eq('is_active', true)
+    .is('invalidated_at', null)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function generateTableQr(tableId: string) {
+  const token = `rp_${crypto.randomUUID().replace(/-/g, '')}`;
+  const { data, error } = await supabase
+    .from('qr_codes')
+    .insert({ table_id: tableId, token })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function regenerateTableQr(tableId: string, oldQrId: string) {
+  const { error } = await supabase
+    .from('qr_codes')
+    .update({ is_active: false, invalidated_at: new Date().toISOString() })
+    .eq('id', oldQrId);
+  if (error) throw error;
+  return generateTableQr(tableId);
+}
+
 export async function updateTable(id: string, updates: Partial<{ number: string; capacity: number; status: string }>) {
   const { data, error } = await supabase
     .from('tables')

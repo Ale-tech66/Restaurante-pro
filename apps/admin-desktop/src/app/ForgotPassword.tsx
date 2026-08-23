@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { KeyRound } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth';
 import './Auth.css';
 
@@ -27,7 +28,7 @@ export function ForgotPassword() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <div className="auth-logo">🔐</div>
+        <div className="auth-logo"><KeyRound size={26} strokeWidth={2.2} /></div>
         <h1 className="auth-title">Recuperar contraseña</h1>
         <p className="auth-subtitle">Te enviaremos un enlace para restablecerla</p>
 

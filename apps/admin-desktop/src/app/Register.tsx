@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Utensils } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth';
 import './Auth.css';
 
@@ -48,7 +49,7 @@ export function Register() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <div className="auth-logo">🍽️</div>
+        <div className="auth-logo"><Utensils size={26} strokeWidth={2.2} /></div>
         <h1 className="auth-title">Crear cuenta</h1>
         <p className="auth-subtitle">Restaurante Pro — Panel de administración</p>
 

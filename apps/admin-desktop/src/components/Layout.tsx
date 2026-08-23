@@ -1,21 +1,26 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, Navigate } from 'react-router-dom';
+import {
+  LayoutDashboard, ClipboardList, CookingPot, Wallet, Armchair,
+  UtensilsCrossed, FolderOpen, Package, Users as UsersIcon,
+  TrendingUp, Settings as SettingsIcon, LogOut, Utensils,
+} from 'lucide-react';
 import { useAuthStore } from '@/stores/auth';
 import { claimRestaurantAdmin, createRestaurant } from '@/lib/api';
 import './Layout.css';
 
 const menuItems = [
-  { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-  { path: '/orders', label: 'Pedidos', icon: '📋' },
-  { path: '/kitchen', label: 'Cocina', icon: '🍳' },
-  { path: '/cashier', label: 'Caja', icon: '💵' },
-  { path: '/tables', label: 'Mesas', icon: '🪑' },
-  { path: '/products', label: 'Productos', icon: '🍽️' },
-  { path: '/categories', label: 'Categorías', icon: '📁' },
-  { path: '/inventory', label: 'Inventario', icon: '📦' },
-  { path: '/users', label: 'Usuarios', icon: '👥' },
-  { path: '/reports', label: 'Reportes', icon: '📈' },
-  { path: '/settings', label: 'Configuración', icon: '⚙️' },
+  { path: '/dashboard', label: 'Dashboard', Icon: LayoutDashboard },
+  { path: '/orders', label: 'Pedidos', Icon: ClipboardList },
+  { path: '/kitchen', label: 'Cocina', Icon: CookingPot },
+  { path: '/cashier', label: 'Caja', Icon: Wallet },
+  { path: '/tables', label: 'Mesas', Icon: Armchair },
+  { path: '/products', label: 'Productos', Icon: UtensilsCrossed },
+  { path: '/categories', label: 'Categorías', Icon: FolderOpen },
+  { path: '/inventory', label: 'Inventario', Icon: Package },
+  { path: '/users', label: 'Usuarios', Icon: UsersIcon },
+  { path: '/reports', label: 'Reportes', Icon: TrendingUp },
+  { path: '/settings', label: 'Configuración', Icon: SettingsIcon },
 ];
 
 export function Layout() {
@@ -69,7 +74,9 @@ export function Layout() {
     return (
       <div className="auth-container">
         <div className="auth-card" style={{ maxWidth: 560 }}>
-          <div className="auth-logo">🔗</div>
+          <div className="auth-logo">
+            <Utensils size={28} strokeWidth={2.2} />
+          </div>
           <h1 className="auth-title">Configura tu restaurante</h1>
           <p className="auth-subtitle">
             Hola {user.full_name}, tu cuenta todavía no está vinculada a ningún restaurante.
@@ -137,24 +144,26 @@ export function Layout() {
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <div className="sidebar-logo">🍽️</div>
+          <div className="sidebar-logo">
+            <Utensils size={20} strokeWidth={2.2} />
+          </div>
           <div>
             <div className="sidebar-title">Restaurante Pro</div>
-            <div className="sidebar-subtitle">Desktop</div>
+            <div className="sidebar-subtitle">{user.restaurant_name || 'Desktop'}</div>
           </div>
         </div>
 
         <nav className="sidebar-nav">
-          {menuItems.map((item) => (
+          {menuItems.map(({ path, label, Icon }) => (
             <NavLink
-              key={item.path}
-              to={item.path}
+              key={path}
+              to={path}
               className={({ isActive }) =>
                 `nav-item ${isActive ? 'nav-item-active' : ''}`
               }
             >
-              <span className="nav-icon">{item.icon}</span>
-              <span>{item.label}</span>
+              <span className="nav-icon"><Icon size={18} strokeWidth={2} /></span>
+              <span>{label}</span>
             </NavLink>
           ))}
         </nav>
@@ -170,7 +179,7 @@ export function Layout() {
             </div>
           </div>
           <button className="logout-btn" onClick={handleSignOut}>
-            Salir
+            <LogOut size={15} /> Salir
           </button>
         </div>
       </aside>

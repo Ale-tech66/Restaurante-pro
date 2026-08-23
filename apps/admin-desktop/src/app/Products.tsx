@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Star } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth';
 import { fetchProducts, createProduct, updateProduct, deleteProduct, fetchCategories } from '@/lib/api';
 
@@ -117,7 +118,7 @@ export function Products() {
                   {p.is_available
                     ? <span className="badge badge-green">Disponible</span>
                     : <span className="badge badge-red">Agotado</span>}
-                  {p.is_featured && <span className="badge badge-orange">★</span>}
+                  {p.is_featured && <span className="badge badge-orange" title="Destacado"><Star size={11} /></span>}
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>

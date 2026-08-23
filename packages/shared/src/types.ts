@@ -30,6 +30,8 @@ export interface User {
   restaurant_id: string | null;
   role_id: string;
   role?: Role;
+  restaurant?: { id: string; name: string; slug?: string } | null;
+  restaurant_name?: string | null;
   full_name: string;
   email: string;
   phone: string | null;

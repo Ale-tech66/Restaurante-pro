@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { StickyNote } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth';
 import { supabase } from '@/lib/supabase';
 import './Pages.css';
@@ -114,7 +115,7 @@ export function Kitchen() {
 
               {o.notes && (
                 <div style={{ fontSize: 13, color: 'var(--warning)', marginTop: 8, fontStyle: 'italic' }}>
-                  📝 {o.notes}
+                  <StickyNote size={13} style={{ display:"inline", verticalAlign:"-2px", marginRight:4 }} />{o.notes}
                 </div>
               )}
 
@@ -127,7 +128,7 @@ export function Kitchen() {
                   >
                     {o.status === 'nuevo' && 'Aceptar'}
                     {o.status === 'aceptado' && 'Empezar a preparar'}
-                    {o.status === 'preparando' && 'Marcar listo ✓'}
+                    {o.status === 'preparando' && 'Marcar listo'}
                   </button>
                 )}
               </div>
