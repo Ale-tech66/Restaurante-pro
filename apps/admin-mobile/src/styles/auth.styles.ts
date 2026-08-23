@@ -1,9 +1,14 @@
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import type { Palette } from '@restaurante-pro/shared';
+import { usePalette } from '@/stores/theme';
 
-export const styles = StyleSheet.create({
+// Estilos de autenticación dinámicos por tema
+const make = (t: Palette) =>
+  StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f1115',
+    backgroundColor: t.bg,
   },
   scroll: {
     flexGrow: 1,
@@ -17,12 +22,12 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: '800',
-    color: '#f4f4f5',
+    color: t.text,
     letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
-    color: '#a1a1aa',
+    color: t.textMuted,
     marginTop: 4,
   },
   form: {
@@ -31,22 +36,22 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#d4d4d8',
+    color: t.textSecondary,
     marginBottom: 6,
     marginTop: 12,
   },
   input: {
-    backgroundColor: '#1c1f26',
+    backgroundColor: t.surface,
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
-    color: '#f4f4f5',
+    color: t.text,
     borderWidth: 1,
-    borderColor: '#2a2e37',
+    borderColor: t.border,
   },
   button: {
-    backgroundColor: '#f97316',
+    backgroundColor: t.primary,
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
@@ -66,11 +71,11 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   linkText: {
-    color: '#a1a1aa',
+    color: t.textMuted,
     fontSize: 14,
   },
   linkTextBold: {
-    color: '#f97316',
+    color: t.primary,
     fontWeight: '700',
   },
   successBox: {
@@ -84,13 +89,20 @@ export const styles = StyleSheet.create({
   successText: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#f4f4f5',
+    color: t.text,
     textAlign: 'center',
   },
   successSubtext: {
     fontSize: 14,
-    color: '#a1a1aa',
+    color: t.textMuted,
     textAlign: 'center',
     marginTop: 8,
   },
 });
+
+
+/** Hook: estilos de auth según el tema activo */
+export function useStyles() {
+  const t = usePalette();
+  return useMemo(() => make(t), [t]);
+}

@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from '@/styles/auth.styles';
+import { useStyles } from '@/styles/auth.styles';
 
 export default function LoginScreen() {
+  const styles = useStyles();
   const signIn = useAuthStore((s) => s.signIn);
   const isLoading = useAuthStore((s) => s.isLoading);
   const [email, setEmail] = useState('');

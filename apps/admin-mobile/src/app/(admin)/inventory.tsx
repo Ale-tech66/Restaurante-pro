@@ -5,9 +5,10 @@ import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { supabase } from '@/lib/api';
 import { fetchIngredients } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function InventoryScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
   const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);

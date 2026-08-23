@@ -12,9 +12,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from '@/styles/auth.styles';
+import { useStyles } from '@/styles/auth.styles';
 
 export default function ForgotPasswordScreen() {
+  const styles = useStyles();
   const resetPassword = useAuthStore((s) => s.resetPassword);
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);

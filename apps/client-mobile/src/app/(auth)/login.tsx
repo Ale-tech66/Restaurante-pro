@@ -3,9 +3,10 @@ import { View, Text, TextInput, Pressable, KeyboardAvoidingView, Platform, Scrol
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function LoginScreen() {
+  const styles = useStyles();
   const signIn = useAuthStore((s) => s.signIn);
   const signUp = useAuthStore((s) => s.signUp);
   const isLoading = useAuthStore((s) => s.isLoading);

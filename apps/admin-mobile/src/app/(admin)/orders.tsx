@@ -4,18 +4,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { fetchActiveOrders, updateOrderStatus } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 const statusLabels: Record<string, string> = {
   nuevo: 'Nuevo', aceptado: 'Aceptado', preparando: 'Preparando',
   listo: 'Listo', entregado: 'Entregado', pagado: 'Pagado', cancelado: 'Cancelado',
 };
-const statusColors: Record<string, any> = {
-  nuevo: styles.badgeBlue, aceptado: styles.badgeOrange, preparando: styles.badgeOrange,
-  listo: styles.badgeGreen, entregado: styles.badgeGreen, pagado: styles.badgeGray, cancelado: styles.badgeRed,
+const badgeForOrderStatus: Record<string, string> = {
+  nuevo: 'badgeBlue', aceptado: 'badgeOrange', preparando: 'badgeOrange',
+  listo: 'badgeGreen', entregado: 'badgeGreen', pagado: 'badgeGray', cancelado: 'badgeRed',
 };
 
 export default function OrdersScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -74,7 +75,7 @@ export default function OrdersScreen() {
             <View key={o.id} style={styles.card}>
               <View style={styles.cardRow}>
                 <Text style={{ fontSize: 18, fontWeight: '800', color: '#f4f4f5' }}>#{o.order_number}</Text>
-                <Text style={[styles.badge, statusColors[o.status] ?? styles.badgeGray]}>
+                <Text style={[styles.badge, (styles as any)[badgeForOrderStatus[o.status]] ?? styles.badgeGray]}>
                   {statusLabels[o.status] ?? o.status}
                 </Text>
               </View>

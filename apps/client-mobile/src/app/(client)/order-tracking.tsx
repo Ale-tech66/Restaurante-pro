@@ -3,7 +3,7 @@ import { View, Text, Pressable, ScrollView, ActivityIndicator } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { subscribeToOrderStatus, supabase } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 const STEPS = [
   { key: 'nuevo', label: 'Recibido', icon: '📋' },
@@ -14,6 +14,7 @@ const STEPS = [
 ];
 
 export default function OrderTrackingScreen() {
+  const styles = useStyles();
   const params = useLocalSearchParams();
   const orderId = params.id as string;
   const [order, setOrder] = useState<any>(null);

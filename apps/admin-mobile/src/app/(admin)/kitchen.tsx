@@ -4,13 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { fetchActiveOrders, updateOrderStatus } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 const statusColors: Record<string, string> = {
   nuevo: '#3b82f6', aceptado: '#f97316', preparando: '#fbbf24', listo: '#4ade80',
 };
 
 export default function KitchenScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);

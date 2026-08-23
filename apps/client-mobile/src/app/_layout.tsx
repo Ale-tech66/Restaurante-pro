@@ -5,12 +5,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAuthStore } from '@/stores/auth';
+import { usePalette } from '@/stores/theme';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const isInitialized = useAuthStore((s) => s.isInitialized);
   const initialize = useAuthStore((s) => s.initialize);
+  const palette = usePalette();
 
   useEffect(() => {
     initialize();
@@ -33,8 +35,14 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <StatusBar style="auto" />
-        <Stack screenOptions={{ headerShown: false }}>
+        <StatusBar style={palette.isDark ? 'light' : 'dark'} />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: 'slide_from_right',
+            contentStyle: { backgroundColor: palette.bg },
+          }}
+        >
           <Stack.Screen name="(auth)" />
           <Stack.Screen name="(client)" />
         </Stack>

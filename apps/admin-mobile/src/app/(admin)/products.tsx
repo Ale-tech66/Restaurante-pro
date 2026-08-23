@@ -4,9 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { fetchProducts, createProduct, updateProduct, deleteProduct, fetchCategories } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function ProductsScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);

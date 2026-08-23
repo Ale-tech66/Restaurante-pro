@@ -12,9 +12,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from '@/styles/auth.styles';
+import { useStyles } from '@/styles/auth.styles';
 
 export default function RegisterScreen() {
+  const styles = useStyles();
   const signUp = useAuthStore((s) => s.signUp);
   const isLoading = useAuthStore((s) => s.isLoading);
   const [fullName, setFullName] = useState('');

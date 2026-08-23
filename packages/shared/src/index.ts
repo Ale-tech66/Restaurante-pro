@@ -18,3 +18,5 @@ export * as clientApi from './clientApi';
 
 // Auth store (factory)
 export { createAuthStore } from './authStore';
+
+export * from './themes';

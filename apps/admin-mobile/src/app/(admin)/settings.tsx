@@ -3,11 +3,16 @@ import { View, Text, TextInput, Pressable, ScrollView, ActivityIndicator, Alert 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
+import { useThemeStore } from '@/stores/theme';
+import { THEMES, THEME_ORDER } from '@restaurante-pro/shared';
 import { supabase } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function SettingsScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
+  const theme = useThemeStore((s) => s.theme);
+  const setTheme = useThemeStore((s) => s.setTheme);
   const [form, setForm] = useState({ name: '', address: '', phone: '', email: '', currency: 'USD', tax_rate: '0' });
   const [isLoading, setIsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -77,6 +82,39 @@ export default function SettingsScreen() {
       </View>
 
       <ScrollView contentContainerStyle={[styles.scrollContent, { gap: 8 }]}>
+        {/* Selector de tema */}
+        <Text style={styles.label}>Elije tu tema</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
+          {THEME_ORDER.map((key) => {
+            const t = THEMES[key];
+            const active = theme === key;
+            return (
+              <Pressable
+                key={key}
+                onPress={() => setTheme(key)}
+                style={{
+                  width: '31%', flexGrow: 1,
+                  backgroundColor: active ? t.primarySoft : styles.card.backgroundColor,
+                  borderWidth: 1.5,
+                  borderColor: active ? t.primary : (styles as any).card.borderColor,
+                  borderRadius: 12,
+                  padding: 12,
+                }}
+              >
+                <View style={{ flexDirection: 'row', gap: 4, marginBottom: 8 }}>
+                  {[t.bg, t.primary, t.text].map((c, i) => (
+                    <View key={i} style={{ width: 16, height: 16, borderRadius: 5, backgroundColor: c, borderWidth: 1, borderColor: styles.card.borderColor }} />
+                  ))}
+                </View>
+                <Text style={[styles.cardTitle, { fontSize: 13 }]}>
+                  {active ? '✓ ' : ''}{t.name}
+                </Text>
+                <Text style={[styles.cardSub, { fontSize: 11 }]} numberOfLines={1}>{t.description}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
         {saved && (
           <View style={{ backgroundColor: 'rgba(74,222,128,0.1)', borderWidth: 1, borderColor: 'rgba(74,222,128,0.3)', borderRadius: 8, padding: 14, marginBottom: 8 }}>
             <Text style={{ color: '#4ade80', fontSize: 14 }}>✓ Configuración guardada</Text>

@@ -2,9 +2,14 @@ import { View, Text, Pressable, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from '@/styles/shared.styles';
+import { useThemeStore } from '@/stores/theme';
+import { THEMES, THEME_ORDER } from '@restaurante-pro/shared';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function ProfileScreen() {
+  const styles = useStyles();
+  const theme = useThemeStore((s) => s.theme);
+  const setTheme = useThemeStore((s) => s.setTheme);
   const user = useAuthStore((s) => s.user);
   const signOut = useAuthStore((s) => s.signOut);
 
@@ -27,6 +32,41 @@ export default function ProfileScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Selector de tema */}
+        <View style={[styles.card, { marginBottom: 16 }]}>
+          <Text style={[styles.cardTitle, { marginBottom: 12 }]}>Elije tu tema</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+            {THEME_ORDER.map((key) => {
+              const t = THEMES[key];
+              const active = theme === key;
+              return (
+                <Pressable
+                  key={key}
+                  onPress={() => setTheme(key)}
+                  style={{
+                    width: '31%', flexGrow: 1,
+                    backgroundColor: active ? t.primarySoft : styles.card.backgroundColor,
+                    borderWidth: 1.5,
+                    borderColor: active ? t.primary : (styles as any).card.borderColor,
+                    borderRadius: 12,
+                    padding: 12,
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', gap: 4, marginBottom: 8 }}>
+                    {[t.bg, t.primary, t.text].map((c, i) => (
+                      <View key={i} style={{ width: 16, height: 16, borderRadius: 5, backgroundColor: c, borderWidth: 1, borderColor: (styles as any).card.borderColor }} />
+                    ))}
+                  </View>
+                  <Text style={[styles.cardTitle, { fontSize: 13 }]}>
+                    {active ? '✓ ' : ''}{t.name}
+                  </Text>
+                  <Text style={[styles.cardSub, { fontSize: 11 }]} numberOfLines={1}>{t.description}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+
         {user ? (
           <>
             <View style={[styles.card, { alignItems: 'center', paddingVertical: 32 }]}>

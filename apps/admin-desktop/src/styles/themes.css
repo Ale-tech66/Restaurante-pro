@@ -1,0 +1,148 @@
+/* ============================================================
+   Temas — overrides de variables por data-theme
+   ============================================================ */
+
+/* Ember (default) — definido en :root en global.css */
+
+/* ---------- Minimalista ---------- */
+[data-theme='minimalista'] {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --surface-hover: #f4f4f5;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d8;
+  --text: #18181b;
+  --text-secondary: #3f3f46;
+  --text-muted: #71717a;
+  --text-dim: #a1a1aa;
+  --primary: #18181b;
+  --primary-hover: #27272a;
+  --primary-soft: rgba(24,24,27,0.06);
+  --primary-glow: rgba(24,24,27,0.15);
+  --primary-gradient: linear-gradient(135deg, #27272a 0%, #3f3f46 100%);
+}
+
+/* ---------- Glassmorphism ---------- */
+[data-theme='glassmorphism'] {
+  --bg: #1a1033;
+  --surface: rgba(255,255,255,0.10);
+  --surface-strong: rgba(255,255,255,0.14);
+  --surface-hover: rgba(255,255,255,0.18);
+  --border: rgba(255,255,255,0.20);
+  --border-strong: rgba(255,255,255,0.30);
+  --text: #f8f7ff;
+  --text-secondary: #ddd8f5;
+  --text-muted: #b9b0dd;
+  --text-dim: #a49cc9;
+  --primary: #a78bfa;
+  --primary-hover: #c4b5fd;
+  --primary-soft: rgba(167,139,250,0.18);
+  --primary-glow: rgba(167,139,250,0.40);
+  --primary-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+/* ---------- Bento ---------- */
+[data-theme='bento'] {
+  --bg: #f2efe9;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --surface-hover: #faf8f4;
+  --border: #e7e2d8;
+  --border-strong: #d6cfc0;
+  --text: #292524;
+  --text-secondary: #44403c;
+  --text-muted: #78716c;
+  --text-dim: #a8a29e;
+  --primary: #0d9488;
+  --primary-hover: #0f766e;
+  --primary-soft: rgba(13,148,136,0.10);
+  --primary-glow: rgba(13,148,136,0.25);
+  --primary-gradient: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+}
+
+/* ---------- Editorial ---------- */
+[data-theme='editorial'] {
+  --bg: #f7f3ec;
+  --surface: #fffdf8;
+  --surface-strong: #fffdf8;
+  --surface-hover: #f4efe5;
+  --border: #ded5c4;
+  --border-strong: #c9bda6;
+  --text: #1c1917;
+  --text-secondary: #3f3a34;
+  --text-muted: #6d6459;
+  --text-dim: #9c9284;
+  --primary: #b45309;
+  --primary-hover: #92400e;
+  --primary-soft: rgba(180,83,9,0.10);
+  --primary-glow: rgba(180,83,9,0.25);
+  --primary-gradient: linear-gradient(135deg, #b45309 0%, #d97706 100%);
+}
+
+[data-theme='editorial'] h1,
+[data-theme='editorial'] .page-title,
+[data-theme='editorial'] .auth-title,
+[data-theme='editorial'] .sidebar-title,
+[data-theme='editorial'] .modal-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: 0;
+}
+
+/* ---------- Maximalismo ---------- */
+[data-theme='maximalismo'] {
+  --bg: #12071f;
+  --surface: rgba(236,72,153,0.10);
+  --surface-strong: rgba(236,72,153,0.16);
+  --surface-hover: rgba(236,72,153,0.22);
+  --border: rgba(168,85,247,0.35);
+  --border-strong: rgba(236,72,153,0.55);
+  --text: #fdf4ff;
+  --text-secondary: #f5d0fe;
+  --text-muted: #d8b4fe;
+  --text-dim: #c084fc;
+  --primary: #ec4899;
+  --primary-hover: #f472b6;
+  --primary-soft: rgba(236,72,153,0.20);
+  --primary-glow: rgba(236,72,153,0.50);
+  --primary-gradient: linear-gradient(135deg, #ec4899 0%, #a855f7 60%, #6366f1 100%);
+}
+
+/* ============================================================
+   Fondos de página especiales por tema
+   (data-theme vive en <html>, así que [data-theme] body aplica)
+   ============================================================ */
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, var(--bg-glow-1), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 100%, var(--bg-glow-2), transparent),
+    var(--bg);
+}
+
+[data-theme='glassmorphism'] body {
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 0%, rgba(139,92,246,0.35), transparent),
+    radial-gradient(ellipse 60% 50% at 95% 30%, rgba(236,72,153,0.22), transparent),
+    radial-gradient(ellipse 70% 60% at 30% 100%, rgba(56,189,248,0.18), transparent),
+    #1a1033;
+}
+
+[data-theme='minimalista'] body {
+  background: #fafafa;
+}
+
+[data-theme='bento'] body {
+  background: #f2efe9;
+}
+
+[data-theme='editorial'] body {
+  background: #f7f3ec;
+}
+
+[data-theme='maximalismo'] body {
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(236,72,153,0.35), transparent),
+    radial-gradient(ellipse 60% 50% at 100% 40%, rgba(99,102,241,0.30), transparent),
+    radial-gradient(ellipse 70% 50% at 40% 110%, rgba(168,85,247,0.28), transparent),
+    #12071f;
+}

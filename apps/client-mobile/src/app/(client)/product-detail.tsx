@@ -4,9 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCartStore } from '@/stores/cart';
 import { supabase } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function ProductDetailScreen() {
+  const styles = useStyles();
   const params = useLocalSearchParams();
   const productId = params.id as string;
   const addItem = useCartStore((s) => s.addItem);

@@ -1,10 +1,14 @@
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
+import type { Palette } from '@restaurante-pro/shared';
+import { usePalette } from '@/stores/theme';
 
-// Estilos compartidos para pantallas de admin/staff móvil
-export const styles = StyleSheet.create({
+// Estilos compartidos dinámicos: se reconstruyen al cambiar el tema
+const make = (t: Palette) =>
+  StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f1115',
+    backgroundColor: t.bg,
   },
   scrollContent: {
     padding: 16,
@@ -16,27 +20,27 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#16181d',
+    backgroundColor: t.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a2e37',
+    borderBottomColor: t.border,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#f4f4f5',
+    color: t.text,
   },
   headerSubtitle: {
     fontSize: 13,
-    color: '#a1a1aa',
+    color: t.textMuted,
   },
   // Cards
   card: {
-    backgroundColor: '#1c1f26',
+    backgroundColor: t.surface,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#2a2e37',
+    borderColor: t.border,
   },
   cardRow: {
     flexDirection: 'row',
@@ -46,17 +50,17 @@ export const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#f4f4f5',
+    color: t.text,
     marginBottom: 4,
   },
   cardSub: {
     fontSize: 13,
-    color: '#a1a1aa',
+    color: t.textMuted,
   },
   cardPrice: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#f97316',
+    color: t.primary,
   },
   // Grid
   grid: {
@@ -73,11 +77,11 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     overflow: 'hidden',
   },
-  badgeGreen: { backgroundColor: 'rgba(74,222,128,0.15)', color: '#4ade80' },
-  badgeOrange: { backgroundColor: 'rgba(249,115,22,0.15)', color: '#fb923c' },
-  badgeRed: { backgroundColor: 'rgba(239,68,68,0.15)', color: '#f87171' },
-  badgeBlue: { backgroundColor: 'rgba(59,130,246,0.15)', color: '#60a5fa' },
-  badgeGray: { backgroundColor: 'rgba(113,113,122,0.15)', color: '#a1a1aa' },
+  badgeGreen: { backgroundColor: t.isDark ? 'rgba(74,222,128,0.15)' : 'rgba(22,163,74,0.10)', color: t.success },
+  badgeOrange: { backgroundColor: t.primarySoft, color: t.primary },
+  badgeRed: { backgroundColor: t.isDark ? 'rgba(239,68,68,0.15)' : 'rgba(220,38,38,0.08)', color: t.danger },
+  badgeBlue: { backgroundColor: t.isDark ? 'rgba(59,130,246,0.15)' : 'rgba(37,99,235,0.08)', color: t.info },
+  badgeGray: { backgroundColor: t.isDark ? 'rgba(113,113,122,0.15)' : 'rgba(113,113,122,0.12)', color: t.textMuted },
   // Buttons
   btn: {
     borderRadius: 8,
@@ -89,17 +93,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnPrimary: {
-    backgroundColor: '#f97316',
+    backgroundColor: t.primary,
   },
   btnSecondary: {
-    backgroundColor: '#262a33',
+    backgroundColor: t.surfaceHover,
     borderWidth: 1,
-    borderColor: '#2a2e37',
+    borderColor: t.border,
   },
   btnDanger: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: 'rgba(239,68,68,0.3)',
+    borderColor: `${t.danger}55`,
   },
   btnText: {
     color: '#fff',
@@ -107,12 +111,12 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
   },
   btnTextDanger: {
-    color: '#f87171',
+    color: t.danger,
     fontSize: 14,
     fontWeight: '600',
   },
   btnTextSecondary: {
-    color: '#a1a1aa',
+    color: t.textMuted,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -120,24 +124,24 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#d4d4d8',
+    color: t.textSecondary,
     marginBottom: 6,
     marginTop: 16,
   },
   input: {
-    backgroundColor: '#262a33',
+    backgroundColor: t.surfaceHover,
     borderWidth: 1,
-    borderColor: '#2a2e37',
+    borderColor: t.border,
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 14,
-    color: '#f4f4f5',
+    color: t.text,
     fontSize: 15,
   },
   // Empty
   empty: {
     textAlign: 'center',
-    color: '#71717a',
+    color: t.textMuted,
     fontSize: 15,
     paddingVertical: 60,
   },
@@ -148,16 +152,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    color: '#a1a1aa',
+    color: t.textMuted,
     marginTop: 12,
     fontSize: 14,
   },
   // Error
   error: {
     color: '#fca5a5',
-    backgroundColor: 'rgba(239,68,68,0.1)',
+    backgroundColor: t.isDark ? 'rgba(239,68,68,0.10)' : 'rgba(220,38,38,0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(239,68,68,0.3)',
+    borderColor: `${t.danger}55`,
     borderRadius: 8,
     padding: 14,
     fontSize: 14,
@@ -172,10 +176,10 @@ export const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#f97316',
+    backgroundColor: t.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: t.bg,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -188,14 +192,14 @@ export const styles = StyleSheet.create({
   },
   // KDS
   kdsCard: {
-    backgroundColor: '#1c1f26',
+    backgroundColor: t.surface,
     borderRadius: 12,
     padding: 14,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#2a2e37',
+    borderColor: t.border,
     borderLeftWidth: 4,
-    borderLeftColor: '#f97316',
+    borderLeftColor: t.primary,
   },
   kdsHeader: {
     flexDirection: 'row',
@@ -206,27 +210,27 @@ export const styles = StyleSheet.create({
   kdsOrderNum: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#f4f4f5',
+    color: t.text,
   },
   kdsMeta: {
     fontSize: 12,
-    color: '#71717a',
+    color: t.textMuted,
   },
   kdsItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#2a2e37',
+    borderBottomColor: t.border,
   },
   kdsItemQty: {
     fontWeight: '700',
-    color: '#f4f4f5',
+    color: t.text,
     width: 40,
   },
   kdsItemName: {
     flex: 1,
-    color: '#f4f4f5',
+    color: t.text,
     fontSize: 14,
     marginLeft: 8,
   },
@@ -242,3 +246,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+/** Hook: estilos según el tema activo (se actualizan solos) */
+export function useStyles() {
+  const t = usePalette();
+  return useMemo(() => make(t), [t]);
+}

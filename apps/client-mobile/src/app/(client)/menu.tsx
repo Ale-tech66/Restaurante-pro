@@ -4,9 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCartStore } from '@/stores/cart';
 import { fetchMenuByQrToken, supabase } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function MenuScreen() {
+  const styles = useStyles();
   const params = useLocalSearchParams();
   const restaurantId = params.restaurant as string;
   const setQrContext = useCartStore((s) => s.setQrContext);

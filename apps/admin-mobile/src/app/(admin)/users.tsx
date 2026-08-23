@@ -4,14 +4,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { fetchUsers, fetchRoles, inviteStaffUser, supabase } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
-const roleColors: Record<string, any> = {
-  admin: styles.badgeOrange, gerente: styles.badgeBlue, cajero: styles.badgeGreen,
-  mesero: styles.badgeGray, cocina: styles.badgeRed,
+const badgeForRole: Record<string, string> = {
+  admin: 'badgeOrange', gerente: 'badgeBlue', cajero: 'badgeGreen',
+  mesero: 'badgeGray', cocina: 'badgeRed',
 };
 
 export default function UsersScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
   const [users, setUsers] = useState<any[]>([]);
   const [roles, setRoles] = useState<any[]>([]);
@@ -86,7 +87,7 @@ export default function UsersScreen() {
                   <Text style={styles.cardTitle}>{u.full_name}</Text>
                   <Text style={styles.cardSub}>{u.email}</Text>
                   <View style={{ flexDirection: 'row', gap: 6, marginTop: 6 }}>
-                    <Text style={[styles.badge, roleColors[u.role?.name] ?? styles.badgeGray]}>{u.role?.name ?? '—'}</Text>
+                    <Text style={[styles.badge, (styles as any)[badgeForRole[u.role?.name]] ?? styles.badgeGray]}>{u.role?.name ?? '—'}</Text>
                     <Text style={[styles.badge, u.is_active ? styles.badgeGreen : styles.badgeRed]}>
                       {u.is_active ? 'Activo' : 'Inactivo'}
                     </Text>

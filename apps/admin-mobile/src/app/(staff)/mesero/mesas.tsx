@@ -4,11 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { fetchTables } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
-const statusColors: Record<string, any> = {
-  libre: styles.badgeGreen, ocupada: styles.badgeOrange, esperando_pago: styles.badgeRed,
-  reservada: styles.badgeBlue, fuera_servicio: styles.badgeGray,
+const badgeForStatus: Record<string, string> = {
+  libre: 'badgeGreen', ocupada: 'badgeOrange', esperando_pago: 'badgeRed',
+  reservada: 'badgeBlue', fuera_servicio: 'badgeGray',
 };
 const statusLabels: Record<string, string> = {
   libre: 'Libre', ocupada: 'Ocupada', esperando_pago: 'Esperando pago',
@@ -16,6 +16,7 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function WaiterTablesScreen() {
+  const styles = useStyles();
   const user = useAuthStore((s) => s.user);
   const signOut = useAuthStore((s) => s.signOut);
   const [tables, setTables] = useState<any[]>([]);
@@ -67,7 +68,7 @@ export default function WaiterTablesScreen() {
               >
                 <Text style={styles.cardTitle}>Mesa {t.number}</Text>
                 <Text style={styles.cardSub}>Cap: {t.capacity}</Text>
-                <Text style={[styles.badge, statusColors[t.status] ?? styles.badgeGray, { alignSelf: 'flex-start', marginTop: 8 }]}>
+                <Text style={[styles.badge, (styles as any)[badgeForStatus[t.status]] ?? styles.badgeGray, { alignSelf: 'flex-start', marginTop: 8 }]}>
                   {statusLabels[t.status] ?? t.status}
                 </Text>
               </Pressable>

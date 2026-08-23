@@ -3,11 +3,15 @@ import { View, Text, TextInput, Pressable, Alert, ActivityIndicator } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { ScanLine } from 'lucide-react-native';
+import { usePalette } from '@/stores/theme';
 import { useCartStore } from '@/stores/cart';
 import { fetchMenuByQrToken } from '@/lib/api';
-import { styles } from '@/styles/shared.styles';
+import { useStyles } from '@/styles/shared.styles';
 
 export default function ScanScreen() {
+  const styles = useStyles();
+  const palette = usePalette();
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [scanned, setScanned] = useState(false);
@@ -51,7 +55,7 @@ export default function ScanScreen() {
       <View style={[styles.scroll, { justifyContent: 'center' }]}>
         {!showCamera ? (
           <View style={{ alignItems: 'center', marginBottom: 32 }}>
-            <Text style={{ fontSize: 64 }}>📷</Text>
+            <ScanLine size={64} strokeWidth={1.6} color={palette.primary} />
             <Text style={[styles.title, { fontSize: 20, marginTop: 12 }]}>Escanea el código QR</Text>
             <Text style={styles.subtitle}>Está en tu mesa</Text>
             {permission && !permission.granted && (

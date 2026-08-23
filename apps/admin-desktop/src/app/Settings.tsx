@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Palette, Check } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth';
 import { supabase } from '@/lib/supabase';
+import { THEMES, THEME_ORDER, getStoredTheme, applyTheme } from '@/lib/theme';
+import type { ThemeName } from '@restaurante-pro/shared';
 import './Pages.css';
 
 export function Settings() {
@@ -19,6 +23,13 @@ export function Settings() {
     currency: 'USD',
     tax_rate: '0',
   });
+
+  const [theme, setTheme] = useState<ThemeName>(() => getStoredTheme());
+
+  const handleTheme = (t: ThemeName) => {
+    setTheme(t);
+    applyTheme(t);
+  };
 
   useEffect(() => {
     if (!user?.restaurant_id) return;
@@ -87,6 +98,69 @@ export function Settings() {
           <p className="page-subtitle">Datos del restaurante</p>
         </div>
       </div>
+
+      {/* ============================================================
+          Selector de tema
+          ============================================================ */}
+      <motion.div
+        className="data-table-wrap"
+        style={{ padding: 22, marginBottom: 32 }}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 16 }}>
+          <Palette size={19} style={{ color: 'var(--primary)' }} />
+          <h2 style={{ fontSize: 17, fontWeight: 700 }}>Elige tu tema</h2>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 12 }}>
+          {THEME_ORDER.map((key) => {
+            const t = THEMES[key];
+            const active = theme === key;
+            return (
+              <motion.button
+                key={key}
+                onClick={() => handleTheme(key)}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  position: 'relative',
+                  background: active ? 'var(--primary-soft)' : 'var(--surface)',
+                  border: `1.5px solid ${active ? 'var(--primary)' : 'var(--border)'}`,
+                  borderRadius: 'var(--radius-md)',
+                  padding: 14,
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  color: 'inherit',
+                  transition: 'border-color .15s ease',
+                }}
+              >
+                {/* Muestra de colores del tema */}
+                <div style={{ display: 'flex', gap: 5, marginBottom: 10 }}>
+                  {[t.bg, t.primary, t.text].map((c, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        width: 22, height: 22, borderRadius: 7,
+                        background: c,
+                        border: '1px solid var(--border)',
+                      }}
+                    />
+                  ))}
+                </div>
+                <div style={{ fontSize: 13.5, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {t.name}
+                  {active && <Check size={14} style={{ color: 'var(--primary)' }} />}
+                </div>
+                <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 3 }}>
+                  {t.description}
+                </div>
+              </motion.button>
+            );
+          })}
+        </div>
+      </motion.div>
 
       {error && <div className="error-msg" style={{ marginBottom: 16 }}>{error}</div>}
       {saved && (
