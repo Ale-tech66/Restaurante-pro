@@ -20,6 +20,7 @@ export default function AdminLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="dashboard" />
       <Stack.Screen name="products" />
+      <Stack.Screen name="product-edit" />
       <Stack.Screen name="categories" />
       <Stack.Screen name="tables" />
     </Stack>

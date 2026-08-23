@@ -16,11 +16,16 @@ export default function RootLayout() {
 
   useEffect(() => {
     initialize();
+    // Fallback: si initialize() se cuelga, ocultar el splash después de 5s
+    const timer = setTimeout(() => {
+      SplashScreen.hideAsync().catch(() => {});
+    }, 5000);
+    return () => clearTimeout(timer);
   }, [initialize]);
 
   useEffect(() => {
     if (isInitialized) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync().catch(() => {});
     }
   }, [isInitialized]);
 

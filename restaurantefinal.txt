@@ -1,0 +1,402 @@
+RESTAURANTE PRO
+ESPECIFICACIÓN COMPLETA Y DEFINITIVA DEL SISTEMA
+Arquitectura: 3 aplicaciones conectadas a un mismo backend, autenticación, seguridad y base de datos.
+Aplicaciones: (1) App Cliente móvil, (2) App Administrador móvil y (3) Restaurante Desktop.
+1. Objetivo general
+Crear una plataforma profesional para restaurantes donde los clientes puedan encontrar un restaurante, escanear un QR o
+buscarlo por nombre/código, consultar el menú, hacer pedidos y pagar; mientras que el restaurante pueda administrar su
+operación desde una computadora o un teléfono.
+Regla principal: la experiencia del cliente y la administración deben estar separadas. No se debe mezclar el dashboard
+administrativo dentro de la App Cliente.
+2. Arquitectura definitiva
+■■ BACKEND / API ■ ■ AUTENTICACIÓN + SEGURIDAD ■ ■■ BASE DE DATOS ■
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ■ ■ ■ ▼ ▼ ▼ ■■ RESTAURANTE ■ CLIENTE ■ ADMIN DESKTOP MÓVIL
+MÓVIL ■ ■ ■ Administración Pedidos Administración Cocina / Caja Menú / QR desde teléfono Inventario Perfil Reportes
+Reportes Pagos Configuración
+Las tres aplicaciones usan la misma información central. No se crean bases de datos separadas para cada aplicación.
+3. Las tres aplicaciones
+1. App Cliente: exclusivamente para clientes que quieren consultar restaurantes y realizar pedidos.
+2. App Admin: para propietario y empleados autorizados desde teléfono o tablet.
+3. Restaurante Desktop: para administrar el restaurante desde computadora y trabajar con caja, cocina, meseros, inventario y
+reportes.
+4. Registro inicial del restaurante
+Página / App ↓ Registrarse ↓ Crear cuenta del propietario ↓ Crear restaurante ↓ Completar información ↓ Configurar
+mesas, menú y pagos ↓ Generar QR ↓ Crear usuarios empleados ↓ Restaurante listo
+• Nombre del propietario.
+• Correo electrónico.
+• Teléfono, si se requiere.
+• Contraseña segura.
+• Nombre del restaurante.
+• Logo.
+• Dirección.
+• Horarios.
+• Moneda e impuestos configurables.
+• Métodos de pago.
+• Mesas.
+• Categorías y productos.
+5. Primer usuario: Propietario / Administrador principal
+La primera persona que registra el restaurante se convierte en el propietario o administrador principal. Este usuario tiene
+acceso completo y es quien configura el negocio y crea las cuentas de empleados.
+Restaurante Pro — Especificación completa final
+Página 1El propietario puede crear usuarios como administrador secundario, gerente, cajero, mesero o cocina, según las necesidades
+del restaurante.
+6. Creación de empleados
+Desde el panel administrativo, el propietario crea las cuentas de los trabajadores.
+CampoEjemplo
+NombreCarlos Pérez
+Usuariocarlos.mesero
+Correocarlos@restaurante.com
+Contraseña inicialGenerada o definida según política
+RolMesero
+EstadoActivo
+Permisos adicionalesOpcionales
+7. Inicio de sesión de empleados
+LOGIN ADMINISTRATIVO Usuario o correo electrónico [________________________] Contraseña [________________________] [
+INICIAR SESIÓN ] ↓ AUTENTICACIÓN ↓ VERIFICAR ESTADO CUENTA ↓ VERIFICAR ROL ↓ ABRIR PANEL CORRESPONDIENTE
+El empleado puede iniciar sesión con su nombre de usuario o con su correo electrónico, siempre que el backend lo tenga
+configurado como identificador válido.
+El empleado no selecciona manualmente su rol. El servidor determina el rol asociado a su cuenta y la aplicación abre el panel
+correspondiente.
+8. Roles y paneles
+RolPanel que debe mostrarAcceso
+Propietario/AdminPanel completoTodo el restaurante
+GerentePanel de gestiónOperación y funciones autorizadas
+CajeroPanel de cajaCobros y cierre
+MeseroPanel de meseroMesas y pedidos
+CocinaPanel de cocinaPreparación de pedidos
+9. Panel de Propietario / Administrador
+• Dashboard general.
+• Ventas y estadísticas.
+• Pedidos.
+• Mesas.
+• Menú y categorías.
+• Productos, variantes y extras.
+• Inventario.
+• Clientes.
+• Caja.
+• Cocina.
+• Meseros.
+• Usuarios y empleados.
+Restaurante Pro — Especificación completa final
+Página 2• Roles y permisos.
+• Promociones y descuentos.
+• QR de mesas.
+• Reportes.
+• Configuración.
+• Auditoría.
+10. Panel de Mesero
+• Ver mesas y estado de cada mesa.
+• Tomar pedidos.
+• Agregar productos al pedido.
+• Agregar observaciones.
+• Ver pedidos activos.
+• Ver pedidos listos.
+• Confirmar entrega.
+• Recibir solicitudes del cliente.
+• Consultar su perfil.
+El mesero no debe tener acceso a administración de usuarios, configuración global, inventario completo ni reportes financieros
+salvo que el propietario le otorgue un permiso específico.
+11. Panel de Caja
+• Ver pedidos pendientes de pago.
+• Registrar efectivo.
+• Calcular cambio.
+• Registrar pagos con tarjeta mediante integración autorizada.
+• Registrar pagos contactless/NFC mediante proveedor compatible.
+• Registrar transferencias.
+• Aplicar descuentos según permiso.
+• Registrar propinas.
+• Emitir o imprimir comprobantes.
+• Solicitar/revisar reembolsos según permisos.
+• Realizar cierre de caja.
+• Consultar movimientos de su turno.
+12. Panel de Cocina
+• Pedidos nuevos.
+• Detalles del pedido.
+• Mesa.
+• Productos y cantidades.
+• Extras y observaciones.
+• Tiempo transcurrido.
+• Estado: nuevo.
+• Estado: aceptado.
+Restaurante Pro — Especificación completa final
+Página 3• Estado: preparando.
+• Estado: listo.
+La cocina debe tener una interfaz simple, grande y rápida para poder utilizarse en una computadora, tablet o teléfono.
+13. App móvil del cliente
+• Registro e inicio de sesión.
+• Inicio.
+• Escanear QR.
+• Buscar restaurante por nombre.
+• Buscar por ID/código del restaurante.
+• Ver restaurante y menú.
+• Categorías.
+• Productos.
+• Fotos.
+• Extras y variantes.
+• Carrito.
+• Checkout.
+• Selección de mesa cuando corresponda.
+• Selección de método de pago.
+• Seguimiento del pedido.
+• Historial.
+• Favoritos.
+• Notificaciones.
+• Perfil.
+14. Flujo del QR
+Cliente ↓ ■ Escanear QR ↓ Identificar restaurante ↓ Identificar mesa ↓ Confirmar restaurante + mesa ↓ Mostrar menú ↓
+Realizar pedido
+Cada mesa puede tener un QR único. El código no debe contener información privada; debe utilizar un identificador seguro
+que el backend pueda validar.
+15. Búsqueda del restaurante sin QR
+Inicio Cliente ↓ Buscar restaurante ↓ Nombre / ID / código público ↓ Resultados ↓ Seleccionar restaurante ↓ Ver menú
+↓ Realizar pedido
+Esta opción permite que el cliente encuentre el restaurante aunque no tenga físicamente el QR.
+16. Menú y productos
+• Categorías.
+• Nombre del producto.
+• Descripción.
+• Fotografía.
+• Precio.
+• Disponibilidad.
+• Tamaños.
+Restaurante Pro — Especificación completa final
+Página 4• Extras.
+• Variantes.
+• Ingredientes/alérgenos cuando el restaurante los configure.
+• Tiempo estimado de preparación.
+17. Carrito y checkout
+• Resumen de productos.
+• Cantidades.
+• Subtotal.
+• Descuentos.
+• Impuestos.
+• Propina configurable.
+• Total.
+• Mesa.
+• Observaciones.
+• Método de pago.
+• Confirmación final antes de crear el pedido.
+18. Métodos de pago
+MétodoFuncionamiento
+EfectivoCaja registra monto recibido y calcula cambio.
+TarjetaProveedor de pagos procesa la tarjeta.
+NFC/contactlessTerminal o solución compatible procesa el pago sin contacto.
+TransferenciaPedido puede quedar pendiente hasta confirmación.
+Pago en cajaCliente ordena y paga presencialmente.
+Pago divididoOpcional; dividir cuenta entre personas/métodos.
+Importante: la aplicación no debe almacenar directamente números completos de tarjeta, CVV u otros datos sensibles. La
+integración debe delegarse a proveedores de pago adecuados.
+19. Estado del pedido
+CREADO ↓ RECIBIDO ↓ ACEPTADO ↓ PREPARANDO ↓ LISTO ↓ ENTREGADO ↓ FINALIZADO Estados alternativos: CANCELADO /
+RECHAZADO / REEMBOLSADO
+20. Flujo completo del restaurante
+CLIENTE ↓ QR / BÚSQUEDA ↓ MENÚ ↓ PEDIDO ↓ BACKEND ■■■■■■■■■■■■■→ COCINA ■ ↓ ■ PREPARANDO ■ ↓ ■ LISTO ■ ↓
+■■■■■■■■■■■■■→ MESERO ↓ ENTREGA ↓ CAJA ↓ PAGO / CIERRE ↓ INVENTARIO + REPORTES
+Restaurante Pro — Especificación completa final
+Página 521. Aplicación Restaurante Desktop
+• Inicio de sesión.
+• Dashboard administrativo.
+• Gestión de productos.
+• Categorías.
+• Menú.
+• Mesas.
+• Generación e impresión de QR.
+• Pedidos.
+• Panel de cocina.
+• Panel de meseros.
+• Panel de caja.
+• Inventario.
+• Clientes.
+• Usuarios.
+• Roles y permisos.
+• Promociones.
+• Reportes.
+• Configuración.
+• Auditoría.
+• Impresión de comandas y comprobantes.
+22. App Admin móvil
+La App Admin móvil utiliza la misma cuenta administrativa y la misma lógica de permisos. Un restaurante que no tenga
+computadora puede realizar su administración desde el teléfono.
+• Dashboard.
+• Productos y menú.
+• Mesas y QR.
+• Pedidos.
+• Cocina.
+• Caja.
+• Inventario.
+• Clientes.
+• Reportes.
+• Usuarios y roles.
+• Promociones.
+• Configuración.
+• Notificaciones.
+23. Mismo login en Desktop y móvil
+■■ Desktop ■■■ ■■■→ LOGIN ■→ BACKEND ■→ ROL ■→ PANEL ■ Admin ■■■■■ Ejemplo: carlos / contraseña ↓ Rol =
+MESERO ↓ Panel Mesero maria@correo.com / contraseña ↓ Rol = CAJERO ↓ Panel Caja
+Restaurante Pro — Especificación completa final
+Página 624. Permisos: seguridad real
+Ocultar botones en la interfaz no es suficiente. Cada acción importante debe ser validada nuevamente por el backend.
+Usuario: Carlos Rol: MESERO Ver mesas → ■ Crear pedido → ■ Ver cocina → según permiso Cobrar → ■ Editar precio →
+■ Crear usuario → ■ Ver reportes → ■ Administrar → ■ Si Carlos intenta llamar directamente a una ruta
+administrativa, el backend debe rechazar la operación.
+Esto evita que un usuario cambie la interfaz o escriba manualmente una ruta para obtener permisos que no posee.
+25. Roles con permisos configurables
+El sistema puede comenzar con roles predeterminados y permitir al administrador definir permisos adicionales.
+• Rol predeterminado: Administrador.
+• Rol predeterminado: Gerente.
+• Rol predeterminado: Caja.
+• Rol predeterminado: Mesero.
+• Rol predeterminado: Cocina.
+• Permisos individuales opcionales para casos especiales.
+• Cuenta activa/inactiva.
+• Revocar sesiones cuando sea necesario.
+26. Rutas principales — App Cliente
+/ ■■■ splash ■■■ login ■■■ register ■■■ forgot-password ■■■ home ■■■ scan ■■■ search ■■■ restaurant/:id ■■■
+restaurant/:id/menu ■■■ product/:id ■■■ cart ■■■ checkout ■■■ order/:id ■■■ orders ■■■ favorites ■■■
+notifications ■■■ profile
+27. Rutas principales — App Admin
+/ ■■■ login ■■■ forgot-password ■■■ select-restaurant ■■■ dashboard ■■■ products ■■■ categories ■■■ menu ■■■
+tables ■■■ qr ■■■ orders ■■■ kitchen ■■■ cashier ■■■ inventory ■■■ customers ■■■ reports ■■■ users ■■■ roles
+■■■ promotions ■■■ notifications ■■■ settings
+28. Módulos Desktop
+LOGIN ↓ DASHBOARD ■■■ Ventas ■■■ Pedidos ■■■ Cocina ■■■ Caja ■■■ Mesas ■■■ Productos ■■■ Menú ■■■ Inventario
+■■■ Clientes ■■■ Usuarios / Roles ■■■ Promociones ■■■ Reportes ■■■ QR ■■■ Configuración
+29. Inventario y recetas
+Los productos pueden estar relacionados con ingredientes. Al confirmar una venta, el sistema puede descontar el inventario
+según la receta.
+Hamburguesa Especial ■■■ Pan: 1 ■■■ Carne: 1 ■■■ Queso: 1 porción ■■■ Vegetales: 1 porción
+• Stock actual.
+• Stock mínimo.
+• Entradas.
+• Salidas.
+• Ajustes.
+• Merma.
+• Historial de movimientos.
+• Alertas de inventario bajo.
+• Recetas por producto.
+30. Caja y turnos
+Restaurante Pro — Especificación completa final
+Página 7• Apertura de caja.
+• Saldo inicial.
+• Ventas en efectivo.
+• Ventas con tarjeta.
+• Ventas contactless/NFC.
+• Transferencias.
+• Descuentos.
+• Propinas.
+• Reembolsos.
+• Saldo esperado.
+• Saldo contado.
+• Diferencia.
+• Cierre de caja.
+• Historial de turnos.
+31. Reportes
+• Ventas por día, semana, mes o rango.
+• Ventas por producto.
+• Ventas por categoría.
+• Ventas por método de pago.
+• Pedidos por estado.
+• Productos más vendidos.
+• Inventario.
+• Movimientos de caja.
+• Rendimiento por turno.
+• Descuentos.
+• Propinas.
+• Reembolsos.
+• Auditoría.
+32. Notificaciones y tiempo real
+• Cliente recibe actualización del pedido.
+• Cocina recibe nuevos pedidos.
+• Mesero recibe aviso de pedido listo.
+• Caja recibe pedidos pendientes de pago.
+• Administrador recibe alertas de inventario.
+• Los cambios deben sincronizarse entre dispositivos autorizados.
+33. Seguridad completa
+• Contraseñas almacenadas mediante hash seguro.
+• Sesiones y tokens gestionados de forma segura.
+• HTTPS/TLS.
+Restaurante Pro — Especificación completa final
+Página 8• Validación de permisos en backend.
+• Aislamiento por restaurante.
+• Rate limiting.
+• Protección contra doble envío/doble cobro.
+• Auditoría de operaciones críticas.
+• Revocación de sesiones.
+• Backups y recuperación.
+• Secretos fuera del código.
+• No almacenar datos sensibles de tarjetas.
+• Validar entradas y datos enviados por cada cliente.
+• Control de acceso a archivos/fotos.
+• Logs sin contraseñas ni datos sensibles.
+34. Multi-restaurante
+PLATAFORMA ■■■ Restaurante A ■ ■■■ usuarios ■ ■■■ productos ■ ■■■ mesas ■ ■■■ pedidos ■ ■■■ ventas ■■■
+Restaurante B ■ ■■■ usuarios ■ ■■■ productos ■ ■■■ mesas ■ ■■■ pedidos ■ ■■■ ventas ■■■ Restaurante C ■■■
+usuarios ■■■ productos ■■■ mesas ■■■ pedidos ■■■ ventas
+El usuario siempre debe operar dentro del restaurante autorizado. El backend debe verificar restaurant_id/tenant_id en cada
+operación protegida.
+35. Base de datos central
+EntidadPropósito
+usersCuentas de usuarios
+restaurantsRestaurantes
+rolesRoles
+permissionsPermisos
+user_roles / user_permissionsAsignaciones
+tablesMesas
+qr_codesQR
+categoriesCategorías
+productsProductos
+product_optionsExtras/variantes
+ordersPedidos
+order_itemsDetalle
+paymentsPagos
+customersClientes
+ingredientsIngredientes
+recipesRecetas
+inventory_movementsInventario
+notificationsNotificaciones
+audit_logsAuditoría
+36. Reglas que no deben romperse
+Restaurante Pro — Especificación completa final
+Página 9• App Cliente nunca muestra administración.
+• Empleado no selecciona manualmente su rol al entrar.
+• El backend determina el rol.
+• El backend valida permisos.
+• El propietario crea los usuarios de empleados.
+• El mismo usuario puede entrar desde Desktop o Admin móvil según sus permisos.
+• Las tres aplicaciones usan la misma base de datos.
+• Los precios y totales importantes se validan en servidor.
+• Cada restaurante está aislado.
+• Los pagos sensibles se delegan a proveedores apropiados.
+37. Orden recomendado de desarrollo
+1. Separar el proyecto actual en las tres aplicaciones.
+2. Conservar la base de datos, backend y seguridad que ya existen.
+3. Definir navegación y rutas por aplicación.
+4. Implementar login administrativo y redirección automática por rol.
+5. Implementar creación de empleados desde el Administrador.
+6. Implementar panel Mesero.
+7. Implementar panel Caja.
+8. Implementar panel Cocina.
+9. Implementar panel Administrador.
+10. Implementar App Cliente.
+11. Implementar QR y búsqueda de restaurantes.
+12. Implementar menú, carrito y pedidos.
+13. Implementar sincronización en tiempo real.
+14. Implementar pagos.
+15. Implementar inventario y recetas.
+16. Implementar reportes.
+17. Probar permisos y aislamiento.
+18. Probar errores, desconexiones y doble envío.
+19. Preparar publicación y actualizaciones.
+38. Resultado final
+El resultado será una plataforma profesional de restaurante con tres aplicaciones claramente separadas. El propietario registra
+el restaurante una sola vez, configura el negocio y crea los usuarios de sus empleados.
+Cada empleado entra con usuario o correo y contraseña. El servidor identifica automáticamente su rol y lo envía al panel
+correspondiente: Mesero, Caja, Cocina, Gerente o Administrador.
+El cliente utiliza otra aplicación completamente independiente para buscar restaurantes, escanear QR, consultar menús,
+realizar pedidos, seguir su pedido y pagar.
+Todo se mantiene conectado mediante el mismo backend, autenticación, seguridad y base de datos.
+Nota de pagos: tarjeta, NFC/contactless, reembolsos y otras funciones financieras deben implementarse con proveedores
+compatibles con el país, banco/adquirente, dispositivo y requisitos regulatorios. La aplicación no debe almacenar directamente
+datos sensibles de tarjetas.
+Restaurante Pro — Especificación completa final
+Página 10

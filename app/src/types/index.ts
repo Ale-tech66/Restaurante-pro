@@ -2,7 +2,7 @@
 // Tipos del dominio — alineados con las migraciones de Supabase
 // ============================================================
 
-export type RoleName = 'admin' | 'mesero' | 'cocina' | 'cajero' | 'cliente';
+export type RoleName = 'admin' | 'gerente' | 'mesero' | 'cocina' | 'cajero' | 'cliente';
 
 export interface Restaurant {
   id: string;
@@ -191,5 +191,43 @@ export interface Notification {
   message: string | null;
   type: 'order' | 'inventory' | 'system';
   is_read: boolean;
+  created_at: string;
+}
+
+// --- Nuevos tipos (migración 0006) ---
+
+export interface CashSession {
+  id: string;
+  restaurant_id: string;
+  user_id: string;
+  status: 'abierta' | 'cerrada';
+  opening_balance: number;
+  closing_balance: number | null;
+  expected_balance: number | null;
+  difference: number | null;
+  cash_sales: number;
+  card_sales: number;
+  transfer_sales: number;
+  tips_total: number;
+  discounts_total: number;
+  refunds_total: number;
+  opened_at: string;
+  closed_at: string | null;
+  notes: string | null;
+}
+
+export interface RestaurantHours {
+  id: string;
+  restaurant_id: string;
+  day_of_week: number;  // 0=Domingo ... 6=Sábado
+  open_time: string | null;
+  close_time: string | null;
+  is_closed: boolean;
+}
+
+export interface CustomerFavorite {
+  id: string;
+  customer_id: string;
+  product_id: string;
   created_at: string;
 }

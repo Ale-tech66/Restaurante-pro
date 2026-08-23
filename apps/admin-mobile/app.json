@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Restaurante Pro Admin",
+    "slug": "restaurante-pro-admin",
+    "version": "1.0.0",
+    "scheme": "restaurante-pro-admin",
+    "orientation": "default",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.restaurante.pro.admin"
+    },
+    "android": {
+      "package": "com.restaurante.pro.admin"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

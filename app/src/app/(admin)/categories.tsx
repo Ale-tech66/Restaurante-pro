@@ -9,6 +9,9 @@ import {
   ActivityIndicator,
   RefreshControl,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useFocusEffect } from 'expo-router';
@@ -20,7 +23,7 @@ import {
   deleteCategory,
 } from '@/lib/api';
 import type { Category } from '@/types';
-import { styles } from './categories.styles';
+import { styles } from '@/styles/categories.styles';
 
 export default function CategoriesScreen() {
   const user = useAuthStore((s) => s.user);
@@ -30,6 +33,7 @@ export default function CategoriesScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [editingCat, setEditingCat] = useState<Category | null>(null);
   const [name, setName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const load = useCallback(async () => {
     if (!user?.restaurant_id) return;
@@ -63,7 +67,15 @@ export default function CategoriesScreen() {
   };
 
   const handleSave = async () => {
-    if (!user?.restaurant_id || !name.trim()) return;
+    if (!user?.restaurant_id) {
+      Alert.alert('Error', 'No tienes un restaurante asignado. Cierra sesión y vuelve a entrar.');
+      return;
+    }
+    if (!name.trim()) {
+      Alert.alert('Error', 'El nombre es obligatorio');
+      return;
+    }
+    setIsSaving(true);
     try {
       if (editingCat) {
         await updateCategory(editingCat.id, { name: name.trim() });
@@ -76,7 +88,9 @@ export default function CategoriesScreen() {
       setModalVisible(false);
       load();
     } catch (error: any) {
-      Alert.alert('Error', error?.message ?? 'No se pudo guardar');
+      Alert.alert('Error al guardar', error?.message ?? 'No se pudo guardar la categoría');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -112,7 +126,7 @@ export default function CategoriesScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
           <Text style={styles.backText}>← Volver</Text>
@@ -139,32 +153,54 @@ export default function CategoriesScreen() {
       )}
 
       <Modal visible={modalVisible} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>
-              {editingCat ? 'Editar categoría' : 'Nueva categoría'}
-            </Text>
-            <TextInput
-              style={styles.modalInput}
-              value={name}
-              onChangeText={setName}
-              placeholder="Nombre de la categoría"
-              placeholderTextColor="#52525b"
-              autoFocus
-            />
-            <View style={styles.modalButtons}>
-              <Pressable
-                style={styles.modalCancelBtn}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.modalCancelText}>Cancelar</Text>
-              </Pressable>
-              <Pressable style={styles.modalSaveBtn} onPress={handleSave}>
-                <Text style={styles.modalSaveText}>Guardar</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={{ flex: 1, justifyContent: 'center' }}
+        >
+          <Pressable
+            style={styles.modalOverlay}
+            onPress={() => !isSaving && setModalVisible(false)}
+          >
+            <Pressable
+              style={styles.modalCard}
+              onPress={(e) => e.stopPropagation()}
+            >
+              <Text style={styles.modalTitle}>
+                {editingCat ? 'Editar categoría' : 'Nueva categoría'}
+              </Text>
+              <TextInput
+                style={styles.modalInput}
+                value={name}
+                onChangeText={setName}
+                placeholder="Nombre de la categoría"
+                placeholderTextColor="#52525b"
+                autoFocus
+                returnKeyType="done"
+                onSubmitEditing={handleSave}
+              />
+              <View style={styles.modalButtons}>
+                <Pressable
+                  style={styles.modalCancelBtn}
+                  onPress={() => setModalVisible(false)}
+                  disabled={isSaving}
+                >
+                  <Text style={styles.modalCancelText}>Cancelar</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.modalSaveBtn, isSaving && { opacity: 0.5 }]}
+                  onPress={handleSave}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <ActivityIndicator color="#fff" />
+                  ) : (
+                    <Text style={styles.modalSaveText}>Guardar</Text>
+                  )}
+                </Pressable>
+              </View>
+            </Pressable>
+          </Pressable>
+        </KeyboardAvoidingView>
       </Modal>
     </SafeAreaView>
   );

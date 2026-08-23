@@ -1,6 +1,6 @@
 import { Stack, Redirect } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
-import { View, ActivityIndicator, Text } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 
 export default function ClientLayout() {
   const { user, isInitialized } = useAuthStore();
@@ -13,8 +13,8 @@ export default function ClientLayout() {
     );
   }
 
-  // El cliente no necesita login necesariamente (accede por QR),
-  // pero si hay sesión y no es cliente, redirige.
+  // El cliente puede acceder sin login (vía QR anónimo).
+  // Si hay sesión y no es cliente, redirige a su panel.
   if (user && user.role && (user as any).role?.name !== 'cliente') {
     return <Redirect href="/" />;
   }
@@ -22,6 +22,9 @@ export default function ClientLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="menu" />
+      <Stack.Screen name="product-detail" />
+      <Stack.Screen name="cart" />
+      <Stack.Screen name="checkout" />
     </Stack>
   );
 }

@@ -13,7 +13,7 @@ import { router, useFocusEffect } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
 import { fetchProducts, deleteProduct } from '@/lib/api';
 import type { Product } from '@/types';
-import { styles } from './products.styles';
+import { styles } from '@/styles/products.styles';
 
 export default function ProductsScreen() {
   const user = useAuthStore((s) => s.user);
@@ -96,7 +96,7 @@ export default function ProductsScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
           <Text style={styles.backText}>← Volver</Text>

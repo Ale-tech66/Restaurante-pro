@@ -9,6 +9,8 @@ import {
   ActivityIndicator,
   RefreshControl,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useFocusEffect } from 'expo-router';
@@ -20,7 +22,7 @@ import {
   deleteTable,
 } from '@/lib/api';
 import type { Table } from '@/types';
-import { styles } from './tables.styles';
+import { styles } from '@/styles/tables.styles';
 
 const statusColors: Record<string, string> = {
   libre: '#166534',
@@ -47,6 +49,7 @@ export default function TablesScreen() {
   const [editingTable, setEditingTable] = useState<Table | null>(null);
   const [number, setNumber] = useState('');
   const [capacity, setCapacity] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const load = useCallback(async () => {
     if (!user?.restaurant_id) return;
@@ -82,8 +85,16 @@ export default function TablesScreen() {
   };
 
   const handleSave = async () => {
-    if (!user?.restaurant_id || !number.trim()) return;
+    if (!user?.restaurant_id) {
+      Alert.alert('Error', 'No tienes un restaurante asignado. Cierra sesión y vuelve a entrar.');
+      return;
+    }
+    if (!number.trim()) {
+      Alert.alert('Error', 'El número/nombre de la mesa es obligatorio');
+      return;
+    }
     const cap = parseInt(capacity) || 4;
+    setIsSaving(true);
     try {
       if (editingTable) {
         await updateTable(editingTable.id, { number: number.trim(), capacity: cap });
@@ -97,7 +108,9 @@ export default function TablesScreen() {
       setModalVisible(false);
       load();
     } catch (error: any) {
-      Alert.alert('Error', error?.message ?? 'No se pudo guardar');
+      Alert.alert('Error al guardar', error?.message ?? 'No se pudo guardar la mesa');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -159,7 +172,7 @@ export default function TablesScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
           <Text style={styles.backText}>← Volver</Text>
@@ -187,42 +200,64 @@ export default function TablesScreen() {
       )}
 
       <Modal visible={modalVisible} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>
-              {editingTable ? 'Editar mesa' : 'Nueva mesa'}
-            </Text>
-            <Text style={styles.label}>Número / Nombre</Text>
-            <TextInput
-              style={styles.modalInput}
-              value={number}
-              onChangeText={setNumber}
-              placeholder="Ej: Mesa 1"
-              placeholderTextColor="#52525b"
-              autoFocus
-            />
-            <Text style={styles.label}>Capacidad</Text>
-            <TextInput
-              style={styles.modalInput}
-              value={capacity}
-              onChangeText={setCapacity}
-              placeholder="4"
-              placeholderTextColor="#52525b"
-              keyboardType="number-pad"
-            />
-            <View style={styles.modalButtons}>
-              <Pressable
-                style={styles.modalCancelBtn}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.modalCancelText}>Cancelar</Text>
-              </Pressable>
-              <Pressable style={styles.modalSaveBtn} onPress={handleSave}>
-                <Text style={styles.modalSaveText}>Guardar</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={{ flex: 1, justifyContent: 'center' }}
+        >
+          <Pressable
+            style={styles.modalOverlay}
+            onPress={() => !isSaving && setModalVisible(false)}
+          >
+            <Pressable
+              style={styles.modalCard}
+              onPress={(e) => e.stopPropagation()}
+            >
+              <Text style={styles.modalTitle}>
+                {editingTable ? 'Editar mesa' : 'Nueva mesa'}
+              </Text>
+              <Text style={styles.label}>Número / Nombre</Text>
+              <TextInput
+                style={styles.modalInput}
+                value={number}
+                onChangeText={setNumber}
+                placeholder="Ej: Mesa 1"
+                placeholderTextColor="#52525b"
+                autoFocus
+              />
+              <Text style={styles.label}>Capacidad</Text>
+              <TextInput
+                style={styles.modalInput}
+                value={capacity}
+                onChangeText={setCapacity}
+                placeholder="4"
+                placeholderTextColor="#52525b"
+                keyboardType="number-pad"
+                returnKeyType="done"
+                onSubmitEditing={handleSave}
+              />
+              <View style={styles.modalButtons}>
+                <Pressable
+                  style={styles.modalCancelBtn}
+                  onPress={() => setModalVisible(false)}
+                  disabled={isSaving}
+                >
+                  <Text style={styles.modalCancelText}>Cancelar</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.modalSaveBtn, isSaving && { opacity: 0.5 }]}
+                  onPress={handleSave}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <ActivityIndicator color="#fff" />
+                  ) : (
+                    <Text style={styles.modalSaveText}>Guardar</Text>
+                  )}
+                </Pressable>
+              </View>
+            </Pressable>
+          </Pressable>
+        </KeyboardAvoidingView>
       </Modal>
     </SafeAreaView>
   );

@@ -10,8 +10,9 @@ import {
   Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from './login.styles';
+import { styles } from '@/styles/login.styles';
 
 export default function LoginScreen() {
   const signIn = useAuthStore((s) => s.signIn);
@@ -32,7 +33,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
@@ -71,6 +72,22 @@ export default function LoginScreen() {
             >
               <Text style={styles.buttonText}>
                 {isLoading ? 'Ingresando...' : 'Ingresar'}
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.linkButton}
+              onPress={() => router.push('/(auth)/forgot-password' as any)}
+            >
+              <Text style={styles.linkText}>¿Olvidaste tu contraseña?</Text>
+            </Pressable>
+
+            <Pressable
+              style={styles.linkButton}
+              onPress={() => router.push('/(auth)/register' as any)}
+            >
+              <Text style={styles.linkText}>
+                ¿No tienes cuenta? <Text style={styles.linkTextBold}>Regístrate</Text>
               </Text>
             </Pressable>
           </View>

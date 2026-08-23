@@ -1,0 +1,25 @@
+{
+  "name": "restaurante-pro-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "npm run typecheck:shared && npm run typecheck:desktop && npm run typecheck:admin-mobile && npm run typecheck:client-mobile",
+    "typecheck:shared": "cd packages/shared && npx tsc --noEmit",
+    "typecheck:desktop": "cd apps/admin-desktop && npx tsc --noEmit",
+    "typecheck:admin-mobile": "cd apps/admin-mobile && npx tsc --noEmit",
+    "typecheck:client-mobile": "cd apps/client-mobile && npx tsc --noEmit",
+    "test": "npm run test:shared && npm run test:desktop && npm run test:admin-mobile && npm run test:client-mobile",
+    "test:shared": "cd packages/shared && npm test",
+    "test:desktop": "cd apps/admin-desktop && npm test",
+    "test:admin-mobile": "cd apps/admin-mobile && npm test",
+    "test:client-mobile": "cd apps/client-mobile && npm test",
+    "install:all": "npm install && cd packages/shared && npm install && cd ../../apps/admin-desktop && npm install && cd ../../apps/admin-mobile && npm install && cd ../../apps/client-mobile && npm install"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.0"
+  }
+}

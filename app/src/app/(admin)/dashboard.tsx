@@ -2,7 +2,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '@/stores/auth';
-import { styles } from './dashboard.styles';
+import { styles } from '@/styles/dashboard.styles';
 
 const menuItems = [
   { key: 'products', label: 'Productos', route: '/(admin)/products', icon: '🍽️' },

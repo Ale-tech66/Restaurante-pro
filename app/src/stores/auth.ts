@@ -8,6 +8,8 @@ interface AuthState {
   isLoading: boolean;
   isInitialized: boolean;
   signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, fullName: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   initialize: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -65,6 +67,32 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+
+  signUp: async (email, password, fullName) => {
+    set({ isLoading: true });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: fullName } },
+      });
+      if (error) throw error;
+      // Si Supabase requiere confirmación por email, data.user existe pero
+      // data.session será null. En ese caso no hay sesión todavía.
+      if (data.session) {
+        await get().refreshUser();
+      }
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  resetPassword: async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'restaurante-pro://reset-password',
+    });
+    if (error) throw error;
   },
 
   signOut: async () => {

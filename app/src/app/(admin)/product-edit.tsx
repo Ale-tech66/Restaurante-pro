@@ -21,7 +21,7 @@ import {
   fetchCategories,
 } from '@/lib/api';
 import type { Category, Product } from '@/types';
-import { styles } from './product-edit.styles';
+import { styles } from '@/styles/product-edit.styles';
 
 export default function ProductEditScreen() {
   const params = useLocalSearchParams<{ id?: string }>();
@@ -70,7 +70,10 @@ export default function ProductEditScreen() {
   );
 
   const handleSave = async () => {
-    if (!user?.restaurant_id) return;
+    if (!user?.restaurant_id) {
+      Alert.alert('Error', 'No tienes un restaurante asignado. Cierra sesión y vuelve a entrar.');
+      return;
+    }
     if (!name.trim()) {
       Alert.alert('Error', 'El nombre es obligatorio');
       return;
@@ -105,7 +108,7 @@ export default function ProductEditScreen() {
       }
       router.back();
     } catch (error: any) {
-      Alert.alert('Error', error?.message ?? 'No se pudo guardar');
+      Alert.alert('Error al guardar', error?.message ?? 'No se pudo guardar el producto');
     } finally {
       setIsSaving(false);
     }
