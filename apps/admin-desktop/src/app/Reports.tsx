@@ -164,8 +164,8 @@ export function Reports() {
               <YAxis tick={{ fill: '#71717a', fontSize: 12 }} axisLine={false} tickLine={false} width={56} />
               <Tooltip
                 contentStyle={{
-                  background: '#14161b', border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: 12, color: '#f4f4f5', boxShadow: '0 8px 32px rgba(0,0,0,.4)',
+                  background: 'var(--surface-solid)', border: '1px solid var(--border-strong)',
+                  borderRadius: 12, color: 'var(--text)', boxShadow: 'var(--shadow)',
                 }}
                 formatter={(v: any) => [`$${Number(v).toFixed(2)}`, 'Ventas']}
               />
@@ -204,7 +204,7 @@ export function Reports() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    background: '#14161b', border: '1px solid rgba(255,255,255,0.12)',
+                    background: 'var(--surface-solid)', border: '1px solid var(--border-strong)',
                     borderRadius: 12, color: '#f4f4f5',
                   }}
                   formatter={(v: any) => `$${Number(v).toFixed(2)}`}
@@ -240,7 +240,7 @@ export function Reports() {
                 <Tooltip
                   cursor={{ fill: 'rgba(255,255,255,0.04)' }}
                   contentStyle={{
-                    background: '#14161b', border: '1px solid rgba(255,255,255,0.12)',
+                    background: 'var(--surface-solid)', border: '1px solid var(--border-strong)',
                     borderRadius: 12, color: '#f4f4f5',
                   }}
                   formatter={(v: any) => [v, 'Vendidos']}

@@ -5,7 +5,12 @@
 /* Ember (default) — definido en :root en global.css */
 
 /* ---------- Minimalista ---------- */
-[data-theme='minimalista'] {
+html[data-theme='minimalista'] {
+
+  --surface-solid: #ffffff;
+  --sidebar-bg: rgba(255,255,255,0.85);
+  --bg-glow-1: transparent;
+  --bg-glow-2: transparent;
   --bg: #fafafa;
   --surface: #ffffff;
   --surface-strong: #ffffff;
@@ -24,7 +29,12 @@
 }
 
 /* ---------- Glassmorphism ---------- */
-[data-theme='glassmorphism'] {
+html[data-theme='glassmorphism'] {
+
+  --surface-solid: rgba(30,20,60,0.72);
+  --sidebar-bg: rgba(28,18,56,0.55);
+  --bg-glow-1: rgba(139,92,246,0.25);
+  --bg-glow-2: rgba(236,72,153,0.15);
   --bg: #1a1033;
   --surface: rgba(255,255,255,0.10);
   --surface-strong: rgba(255,255,255,0.14);
@@ -43,7 +53,12 @@
 }
 
 /* ---------- Bento ---------- */
-[data-theme='bento'] {
+html[data-theme='bento'] {
+
+  --surface-solid: #ffffff;
+  --sidebar-bg: rgba(255,255,255,0.85);
+  --bg-glow-1: transparent;
+  --bg-glow-2: transparent;
   --bg: #f2efe9;
   --surface: #ffffff;
   --surface-strong: #ffffff;
@@ -62,7 +77,12 @@
 }
 
 /* ---------- Editorial ---------- */
-[data-theme='editorial'] {
+html[data-theme='editorial'] {
+
+  --surface-solid: #fffdf8;
+  --sidebar-bg: rgba(255,253,248,0.88);
+  --bg-glow-1: transparent;
+  --bg-glow-2: transparent;
   --bg: #f7f3ec;
   --surface: #fffdf8;
   --surface-strong: #fffdf8;
@@ -80,17 +100,22 @@
   --primary-gradient: linear-gradient(135deg, #b45309 0%, #d97706 100%);
 }
 
-[data-theme='editorial'] h1,
-[data-theme='editorial'] .page-title,
-[data-theme='editorial'] .auth-title,
-[data-theme='editorial'] .sidebar-title,
-[data-theme='editorial'] .modal-title {
+html[data-theme='editorial'] h1,
+html[data-theme='editorial'] .page-title,
+html[data-theme='editorial'] .auth-title,
+html[data-theme='editorial'] .sidebar-title,
+html[data-theme='editorial'] .modal-title {
   font-family: Georgia, 'Times New Roman', serif;
   letter-spacing: 0;
 }
 
 /* ---------- Maximalismo ---------- */
-[data-theme='maximalismo'] {
+html[data-theme='maximalismo'] {
+
+  --surface-solid: rgba(40,10,50,0.75);
+  --sidebar-bg: rgba(35,8,48,0.6);
+  --bg-glow-1: rgba(236,72,153,0.22);
+  --bg-glow-2: rgba(99,102,241,0.18);
   --bg: #12071f;
   --surface: rgba(236,72,153,0.10);
   --surface-strong: rgba(236,72,153,0.16);
@@ -119,7 +144,7 @@ body {
     var(--bg);
 }
 
-[data-theme='glassmorphism'] body {
+html[data-theme='glassmorphism'] body {
   background:
     radial-gradient(ellipse 70% 55% at 15% 0%, rgba(139,92,246,0.35), transparent),
     radial-gradient(ellipse 60% 50% at 95% 30%, rgba(236,72,153,0.22), transparent),
@@ -127,19 +152,19 @@ body {
     #1a1033;
 }
 
-[data-theme='minimalista'] body {
+html[data-theme='minimalista'] body {
   background: #fafafa;
 }
 
-[data-theme='bento'] body {
+html[data-theme='bento'] body {
   background: #f2efe9;
 }
 
-[data-theme='editorial'] body {
+html[data-theme='editorial'] body {
   background: #f7f3ec;
 }
 
-[data-theme='maximalismo'] body {
+html[data-theme='maximalismo'] body {
   background:
     radial-gradient(ellipse 70% 50% at 10% 0%, rgba(236,72,153,0.35), transparent),
     radial-gradient(ellipse 60% 50% at 100% 40%, rgba(99,102,241,0.30), transparent),

@@ -168,11 +168,11 @@
   font-weight: 600;
 }
 
-.badge-green { background: var(--success-bg); color: #4ade80; }
-.badge-orange { background: var(--primary-soft); color: #fb923c; }
-.badge-red { background: var(--danger-bg); color: #f87171; }
-.badge-blue { background: var(--info-bg); color: #60a5fa; }
-.badge-gray { background: rgba(113, 113, 122, 0.15); color: #a1a1aa; }
+.badge-green { background: var(--success-bg); color: var(--success); }
+.badge-orange { background: var(--primary-soft); color: var(--primary-hover); }
+.badge-red { background: var(--danger-bg); color: var(--danger); }
+.badge-blue { background: var(--info-bg); color: var(--info); }
+.badge-gray { background: rgba(113, 113, 122, 0.15); color: var(--text-muted); }
 
 /* ============================================================
    Botones
@@ -335,7 +335,7 @@
 
 .modal-card {
   position: relative;
-  background: #14161b;
+  background: var(--surface-solid);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
   padding: 28px;

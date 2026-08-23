@@ -8,7 +8,7 @@
 
 .sidebar {
   width: 248px;
-  background: rgba(16, 18, 23, 0.72);
+  background: var(--sidebar-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-right: 1px solid var(--border);

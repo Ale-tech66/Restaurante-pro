@@ -6,10 +6,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(249, 115, 22, 0.09), transparent),
-    radial-gradient(ellipse 50% 40% at 85% 95%, rgba(59, 130, 246, 0.06), transparent),
-    var(--bg);
+  background: transparent;
 }
 
 .auth-card {
@@ -17,7 +14,7 @@
   max-width: 92vw;
   max-height: 92vh;
   overflow-y: auto;
-  background: var(--surface);
+  background: var(--surface-solid);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
@@ -74,7 +71,7 @@
 }
 
 .auth-input {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 12px 15px;
@@ -90,8 +87,8 @@
 
 .auth-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
-  background: rgba(255, 255, 255, 0.055);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: var(--surface-hover);
 }
 
 .auth-error {
