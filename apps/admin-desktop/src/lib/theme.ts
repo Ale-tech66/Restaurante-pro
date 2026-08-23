@@ -1,5 +1,5 @@
 import { THEMES, THEME_ORDER, type ThemeName } from '@restaurante-pro/shared';
-import './themes.css';
+import '../styles/themes.css';
 
 const STORAGE_KEY = 'rp-theme';
 
