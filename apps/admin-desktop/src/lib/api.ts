@@ -235,13 +235,13 @@ export async function claimRestaurantAdmin(slug: string) {
   return data;
 }
 
-// Crear un restaurante nuevo desde cero (RLS: cualquier autenticado puede insertar)
-export async function createRestaurant(params: { name: string; slug: string }) {
-  const { data, error } = await supabase
-    .from('restaurants')
-    .insert({ name: params.name, slug: params.slug })
-    .select()
-    .single();
+// Crear restaurante + volverse admin en UNA llamada atómica (RPC security definer).
+// Evita por completo las políticas RLS de INSERT sobre restaurants.
+export async function createRestaurant(params: { name: string; slug?: string }) {
+  const { data, error } = await supabase.rpc('create_my_restaurant', {
+    p_name: params.name,
+    p_slug: params.slug ?? null,
+  });
   if (error) throw error;
   return data;
 }

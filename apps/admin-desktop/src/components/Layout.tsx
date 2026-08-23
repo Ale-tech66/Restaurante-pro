@@ -36,9 +36,6 @@ export function Layout() {
   // Cuenta sin restaurante vinculado: sin esto, todas las pantallas
   // se quedarían con el spinner de carga para siempre.
   if (!user.restaurant_id) {
-    const slugify = (text: string) =>
-      text.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-
     const handleClaim = async () => {
       if (!slug.trim()) return;
       setClaiming(true);
@@ -55,25 +52,12 @@ export function Layout() {
 
     const handleCreate = async () => {
       const name = newName.trim();
-      const newSlug = slugify(name);
-      if (!name || !newSlug) return;
+      if (!name) return;
       setCreating(true);
       setCreateError('');
       try {
-        // Si el slug ya existe en la BD, lo diferenciamos con un sufijo corto
-        let finalSlug = newSlug;
-        try {
-          await createRestaurant({ name, slug: finalSlug });
-        } catch (err: any) {
-          if (err?.code === '23505' || /duplicate|unique/i.test(err?.message ?? '')) {
-            finalSlug = `${newSlug}-${Math.random().toString(36).slice(2, 6)}`;
-            await createRestaurant({ name, slug: finalSlug });
-          } else {
-            throw err;
-          }
-        }
-        // Reclamar admin del restaurante recién creado y refrescar la sesión
-        await claimRestaurantAdmin(finalSlug);
+        // RPC atómica: crea el restaurante y vincula al usuario como admin
+        await createRestaurant({ name });
         await refreshUser();
       } catch (err: any) {
         setCreateError(err?.message ?? 'No se pudo crear el restaurante');
