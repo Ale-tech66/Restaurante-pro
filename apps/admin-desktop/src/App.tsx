@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/auth';
 import { Login } from '@/app/Login';
+import { Register } from '@/app/Register';
+import { ForgotPassword } from '@/app/ForgotPassword';
 import { Dashboard } from '@/app/Dashboard';
 import { Products } from '@/app/Products';
 import { Categories } from '@/app/Categories';
@@ -36,6 +38,8 @@ export default function App() {
     <HashRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />

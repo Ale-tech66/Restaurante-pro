@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/auth';
 import './Auth.css';
 
@@ -63,6 +63,15 @@ export function Login() {
             {isLoading ? 'Ingresando...' : 'Iniciar sesión'}
           </button>
         </form>
+
+        <p style={{ textAlign: 'center', marginTop: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Link to="/register" style={{ color: 'var(--primary)', textDecoration: 'none' }}>
+            ¿No tienes cuenta? <strong>Regístrate</strong>
+          </Link>
+          <Link to="/forgot-password" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: 14 }}>
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </p>
       </div>
     </div>
   );

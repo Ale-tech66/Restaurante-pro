@@ -226,6 +226,15 @@ export async function inviteStaffUser(params: {
   return data;
 }
 
+// Bootstrap: reclamar la administración de un restaurante que aún no tiene admin
+export async function claimRestaurantAdmin(slug: string) {
+  const { data, error } = await supabase.rpc('claim_restaurant_admin', {
+    p_restaurant_slug: slug,
+  });
+  if (error) throw error;
+  return data;
+}
+
 // ============================================================
 // Inventario
 // ============================================================
